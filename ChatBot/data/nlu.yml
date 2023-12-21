@@ -28,7 +28,7 @@ nlu:
 - intent: order_status
   examples: |
     - check status of my order
-    - when are my shirt coming in
+    - when are my tshirt coming in
     - when will they get here
     - I'd like to check the status of my order pls
     - check status
@@ -42,29 +42,29 @@ nlu:
 - intent: order_cancel
   examples: |
     - i'd like to cancel my order
-    - cancel my shirt
+    - cancel my tshirt
     - I changed my mind on my order
     - cancel my order
 - intent: return
   examples: |
     - start a return
-    - I don't want my shirt anymore
+    - I don't want my tshirt anymore
     - how do I return these?
-    - return some shirt
+    - return some tshirt
     - Which items are available to return?
     - Start a return
-    - Okay. I would like to return some shirt I bought
+    - Okay. I would like to return some tshirt I bought
     - yeah I want to return something
 - intent: product_stock
   examples: |
-    - do you have any [black](color) shirt in stock?
-    - what about [white](color) shirt
+    - do you have any [black](color) tshirt in stock?
+    - what about [white](color) tshirt
     - what's your inventory
-    - are you out of size 9 shirt
+    - are you out of size 9 tshirt
     - check inventory
-    - do you have my special shirt in stock
+    - do you have my special tshirt in stock
     - Check inventory
-    - i'm looking for new shirt
+    - i'm looking for new tshirt
 - intent: product_updates
   examples: |
     - what's new on the site?
@@ -74,10 +74,10 @@ nlu:
     - subscribe to updates
     - i [don't](negation) want to subscribe
     - I [do not](negation) subscribe
-- intent: order_shirt
+- intent: order_tshirt
   examples: |
-    - i want to buy shirt
-    - no, don't want to do a return, want to purchase new shirt
+    - i want to buy tshirt
+    - no, don't want to do a return, want to purchase new tshirt
     - since they're in stock, how about I place an order
 - intent: faq/alternate_info
   examples: |
@@ -140,9 +140,9 @@ nlu:
     - example@rasa.com
     - my email is example@yahoo.com
     - it's example@gmail.com
-    - [black](color) shirt
+    - [black](color) tshirt
     - [white](color) ones
-    - I'm looking for [orange](color) shirt
+    - I'm looking for [orange](color) tshirt
     - [brown](color)
     - [blue](color)
     - it's 123

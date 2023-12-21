@@ -11,7 +11,7 @@ intents:
 - affirm
 - deny
 - inform
-- order_shirts
+- order_tshirt
 - greet
 - chitchat
 - faq
@@ -115,7 +115,7 @@ responses:
       title: Check inventory
     - payload: Subscribe to product updates
       title: Subscribe to product updates
-    text: Hi there! I'm a demo bot to help you with ordering shirts. How can I help you?
+    text: Hi there! I'm a demo bot to help you with ordering tshirt. How can I help you?
 
   utter_first_greet:
   - buttons:
@@ -173,17 +173,17 @@ responses:
   - text: Alright, you're subscribed!
   - text: Ok, you're all set!
   utter_product_stock_start:
-  - text: I can help you find some shirts!
-  - text: I can help you find some shirts. What size and color are you looking for?
+  - text: I can help you find some tshirt!
+  - text: I can help you find some tshirt. What size and color are you looking for?
   utter_ask_product_stock_form_size:
-  - text: What size shirts would you like?
+  - text: What size tshirt would you like?
   - text: What size are you looking for?
   - text: What size would you like?
   utter_ask_product_stock_form_color:
   - text: What color are you looking for?
-  - text: What color shirts would you like?
+  - text: What color tshirt would you like?
   utter_product_stock_finish:
-  - text: Looks like we have size {size} {color} shirts in stock!
+  - text: Looks like we have size {size} {color} tshirt in stock!
   utter_confirm_email:
   - text: I already have your email on file. Would you like me to look up your order under {email}?
   - text: I have your email on file. Would you like me to look up your order under {email}?
@@ -210,7 +210,7 @@ responses:
   - text: I'm here, what's up?
 
   utter_chitchat/capabilities:
-  - text: I can help you start a return, subscribe to our emails, and even see if we carry your desired shirts.
+  - text: I can help you start a return, subscribe to our emails, and even see if we carry your desired tshirt.
   - text: I can help you with orders, returns, and product updates.
 
   utter_chitchat/mood_great:
@@ -255,9 +255,9 @@ responses:
   utter_in_stock:
   - text: You're in luck! We have those in stock.
   utter_no_stock:
-  - text: Sorry, seems like we don't have those shirts.
-  utter_order_shirts:
-  - text: Sorry, I can't actually help you order the shirts. Please visit our site to buy some nice shirts! I can help you check inventory, see the status of an order or even make a change to that order.
+  - text: Sorry, seems like we don't have those tshirt.
+  utter_order_tshirt:
+  - text: Sorry, I can't actually help you order the tshirt. Please visit our site to buy some nice tshirt! I can help you check inventory, see the status of an order or even make a change to that order.
 actions:
 - action_product_search
 - action_survey_submit

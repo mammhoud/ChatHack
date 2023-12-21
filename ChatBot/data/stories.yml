@@ -5,10 +5,10 @@ stories:
   - intent: greet
   - action: utter_first_greet
 
-- story: order shirt
+- story: order tshirt
   steps:
-  - intent: order_shirt
-  - action: utter_order_shirt
+  - intent: order_tshirt
+  - action: utter_order_tshirt
 
 
 # bot choice stories
