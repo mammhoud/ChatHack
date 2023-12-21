@@ -105,8 +105,13 @@ class ActionUtterAskLanguage(Action):
     def name(self):
         return 'action_utter_ask_language'
     
-    def run(self, dispatcher, tracker, domain):
-        announce(self, tracker)
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        
         
         text = get_text_from_lang(
             tracker,
@@ -126,8 +131,13 @@ class ActionUtterSetLanguage(Action):
     def name(self) -> Text:
         return 'action_utter_set_language'
     
-    def run(self, dispatcher, tracker, domain):
-        announce(self, tracker)
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        
 
         current_language = tracker.slots['language'].title()
         text = 'I only understand English, French, Arabic, and Armenian. The language is now English.'
@@ -165,7 +175,12 @@ class ActionSessionStart(Action):
 
         return slots
 
-    def run(self, dispatcher, tracker, domain):
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
         announce(self)
         print(tracker.sender_id)
 
@@ -413,8 +428,13 @@ class ActionRequestHuman(Action):
     def name(self):
         return "action_request_human"
 
-    def run(self, dispatcher, tracker, domain):
-        announce(self, tracker)
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        
         text = ""
 
         if tracker.get_slot("username") and tracker.get_slot("login_type"):
@@ -470,16 +490,17 @@ class ActionRequestHuman(Action):
                 tracker,
                 [
                     'You requested human help but are not logged in. Please type "log in" to log in.',
-                    'لقد طلبت مساعدة بشرية لكنك لم تسجل الدخول. الرجاء كتابة "تسجيل الدخول" لتسجيل الدخول.',
+                    'تم ارسال طلبك و لكن لقد طلبت مساعدة لكنك لم تسجل الدخول. الرجاء كتابة "تسجيل الدخول" لتسجيل الدخول.',
                 ],
             )
-
+            
+            ##print("\ntracker:", tracker.)
             print("\nBOT:", text)
             dispatcher.utter_message(text)
 
         return []
 
-
+############################################################################################
 class GiveAge(Action):
     def name(self) -> Text:
         return "action_give_age"
@@ -508,3 +529,5 @@ class GiveUid(Action):
         evt = BotUttered(text="my uid is bot? idk", metadata={"uidGiven": "bot"})
 
         return [evt]
+
+
