@@ -181,7 +181,7 @@ class ActionSessionStart(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        announce(self)
+        
         print(tracker.sender_id)
 
         events = [SessionStarted()]
