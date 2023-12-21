@@ -124,8 +124,8 @@ responses:
     - payload: shopping bot
     
       title: shopping bot
-    - payload: course bot
-      title: course bot
+    - payload: Redirect to Agent
+      title: Redirect to the Agent
     text: Hi there! I'm a demo bot to help you with chat services, you can check for now the bots that implemented. How can I help you?
   utter_iam_fine:
   - text: I'm fine.

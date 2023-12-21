@@ -1,12 +1,5 @@
 version: "3.1"
 nlu:
-- intent: bot_choice_courses
-  examples: |
-    - courses bot
-    - start with courses bot
-    - courses bot please
-    - courses bot
-    - i would like to talk to courses bot
 - intent: bot_choice_university
   examples: |
     - university bot
@@ -102,6 +95,23 @@ nlu:
 #########################
 - intent: request_human
   examples: |
+    - Redirect to Agent
+    - I want to talk to a human
+    - I want to talk to a real person
+    - i need to support from a real person
+    - i need to support from a real human
+    - i have technical issue and i need to talk to a real person
+    - i to talk to real agent
+    - i need a tech support
+    - i need a technical support
+    - i need a technical support from a real person
+    - i need a technical support from a real human
+    - i need a technical support from a real agent
+    - Redirect to Agent please
+    - Redirect to an Agent
+    - Redirect to a real person
+    - Redirect to a real human
+    - redirect to a real agent
     - I want to talk to someone
     - I wish to speak with your manager
     - Get me a real person

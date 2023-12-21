@@ -30,7 +30,7 @@ import sqlite3
 
 # Default parameters for DatabseConnection class. Can be overriden in constructor.
 # change this to the location of your SQLite file
-path_to_db = "actions/example.db"
+path_to_db = "../db.sqlite3"
 db = ["localhost", "chatbot", "root", "p@Ssword"]
 def_db = db
 
@@ -217,13 +217,13 @@ class ActionProductSearch(Action):
 
         if data_row:
             # provide in stock message
-            dispatcher.utter_message(template="utter_in_stock")
+            dispatcher.utter_message(response="utter_in_stock")
             connection.close()
             slots_to_reset = ["size", "color"]
             return [SlotSet(slot, None) for slot in slots_to_reset]
         else:
             # provide out of stock
-            dispatcher.utter_message(template="utter_no_stock")
+            dispatcher.utter_message(response="utter_no_stock")
             connection.close()
             slots_to_reset = ["size", "color"]
             return [SlotSet(slot, None) for slot in slots_to_reset]
@@ -239,8 +239,8 @@ class SurveySubmit(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(template="utter_open_feedback")
-        dispatcher.utter_message(template="utter_survey_end")
+        dispatcher.utter_message(response="utter_open_feedback")
+        dispatcher.utter_message(response="utter_survey_end")
         return [SlotSet("survey_complete", True)]
 
 
@@ -270,12 +270,12 @@ class OrderStatus(Action):
             data_list = list(data_row)
 
             # respond with order status
-            dispatcher.utter_message(template="utter_order_status", status=data_list[5])
+            dispatcher.utter_message(response="utter_order_status", status=data_list[5])
             connection.close()
             return []
         else:
             # db didn't have an entry with this email
-            dispatcher.utter_message(template="utter_no_order")
+            dispatcher.utter_message(response="utter_no_order")
             connection.close()
             return []
 
@@ -309,11 +309,11 @@ class CancelOrder(Action):
             connection.close()
 
             # confirm cancellation
-            dispatcher.utter_message(template="utter_order_cancel_finish")
+            dispatcher.utter_message(response="utter_order_cancel_finish")
             return []
         else:
             # db didn't have an entry with this email
-            dispatcher.utter_message(template="utter_no_order")
+            dispatcher.utter_message(response="utter_no_order")
             connection.close()
             return []
 
@@ -347,11 +347,11 @@ class ReturnOrder(Action):
             connection.close()
 
             # confirm return
-            dispatcher.utter_message(template="utter_return_finish")
+            dispatcher.utter_message(response="utter_return_finish")
             return []
         else:
             # db didn't have an entry with this email
-            dispatcher.utter_message(template="utter_no_order")
+            dispatcher.utter_message(response="utter_no_order")
             connection.close()
             return []
 
