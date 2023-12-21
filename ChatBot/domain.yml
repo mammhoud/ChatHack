@@ -119,11 +119,10 @@ responses:
 
   utter_first_greet:
   - buttons:
-    - payload: university bot
-      title: university bot
-    - payload: shopping bot
-    
-      title: shopping bot
+    - payload: Shopping Bot    
+      title: Shopping Bot
+    - payload: AI Virtual Assistant
+      title: AI Virtual Assistant
     - payload: Redirect to Agent
       title: Redirect to the Agent
     text: Hi there! I'm a demo bot to help you with chat services, you can check for now the bots that implemented. How can I help you?

@@ -164,7 +164,7 @@ pycountry==20.7.3
 slack==0.0.2
 slack-sdk==3.5.1
 
-
+cohere
 google-api-python-client==1.12.8
 google-auth-httplib2==0.0.4
 googleapis-common-protos==1.52.0
