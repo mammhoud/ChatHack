@@ -1,11 +1,11 @@
 # django-ticketing-system
 A simple ticketing system built with the django framework
 ## Install 
-python 3.9 or upgraded version
+### python 3.9 or upgraded version
     pip install -r requirements.txt
-to Run Server
+### to Run Server
     python manage.py runserver [ip]:[port]
-or 
+### or 
     chmod +x
     ./python manage.py runserver [ip]:[port]
 
