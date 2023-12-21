@@ -1,0 +1,95 @@
+version: "3.1"
+stories:
+- story: intro
+  steps:
+  - intent: greet
+  - action: utter_first_greet
+
+- story: order shirt
+  steps:
+  - intent: order_shirt
+  - action: utter_order_shirt
+
+
+# bot choice stories
+
+- story: bot choice shopping
+  steps:
+  - intent: bot_choice_shopping
+  - action: utter_greet
+# cancel stories shopping bot
+
+- story: User stops product_stock
+  steps:
+  - active_loop: product_stock_form
+  - intent: deny
+  - action: utter_start_over
+  - action: utter_greet
+  - action: action_deactivate_loop
+  - active_loop: null
+
+- story: User stops order_status
+  steps:
+  - active_loop: order_status_form
+  - intent: deny
+  - action: utter_start_over
+  - action: utter_greet
+  - action: action_deactivate_loop
+  - active_loop: null
+
+- story: User stops cancel_form
+  steps:
+  - active_loop: cancel_form
+  - intent: deny
+  - action: utter_start_over
+  - action: utter_greet
+  - action: action_deactivate_loop
+  - active_loop: null
+
+- story: User stops return_form
+  steps:
+  - active_loop: return_form
+  - intent: deny
+  - action: utter_start_over
+  - action: utter_greet
+  - action: action_deactivate_loop
+  - active_loop: null
+
+- story: User stops product_updates_form
+  steps:
+  - active_loop: product_updates_form
+  - intent: deny
+  - action: utter_start_over
+  - action: utter_greet
+  - action: action_deactivate_loop
+  - active_loop: null
+
+# this is to demonstrate adding metadata to a response
+- story: user asks for name
+  steps:
+  - intent: whats_your_name
+  - action: action_give_name
+  # - intent: whats_your_age
+  # - action: action_give_age
+
+
+
+  - story: (Conversation) User logs in and requests a human
+  steps:
+  # - intent: log_in
+  # - action: form_log_in
+  # - active_loop: form_log_in
+  # - slot_was_set:
+  #   - requested_slot: username
+  # - intent: out_of_scope
+  # - action: form_log_in
+  # - slot_was_set:
+  #   - username: Chris
+  # - intent: out_of_scope
+  # - action: form_log_in
+  # - active_loop: null
+  # - slot_was_set:
+  #   - password: secret
+  # - action: action_submit_form_log_in
+  - intent: request_human
+  - action: action_request_human

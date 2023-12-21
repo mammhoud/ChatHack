@@ -1,0 +1,81 @@
+# Configuration for Rasa NLU.
+# https://rasa.com/docs/rasa/nlu/components/
+
+recipe: default.v1
+
+
+language: en
+assistant_id: 
+# pipeline:
+#  - <tokenizer>
+#  - <featurizer>
+#  - ...
+#  - <entity_extractor>
+#  - ...
+#  - <intent_classifier>
+#  - ...
+
+# policies:
+#  - <policy1>
+#  - <policy2>
+#  - ...
+# https://rasa.com/docs/rasa/nlu/components/
+
+
+# See https://rasa.com/docs/rasa/tuning-your-model for more information.
+pipeline:
+- name: WhitespaceTokenizer
+- name: RegexFeaturizer
+- name: LexicalSyntacticFeaturizer
+- name: CountVectorsFeaturizer
+  analyzer: char_wb
+  min_ngram: 1
+  max_ngram: 4
+- name: DIETClassifier
+  epochs: 80
+  model_confidence: softmax
+  constrain_similarities: true
+  tensorboard_log_directory: ".tensorboard_diet"
+  tensorboard_log_level: "epoch"
+- name: EntitySynonymMapper
+
+- name: ResponseSelector
+  model_confidence: softmax
+  epochs: 100
+  constrain_similarities: true
+  
+- name: ResponseSelector
+  epochs: 100
+  retrieval_intent: faq
+- name: ResponseSelector
+  epochs: 100
+  retrieval_intent: chitchat
+- name: FallbackClassifier
+  threshold: 0.3
+  ambiguity_threshold: 0.1
+- name: "DucklingEntityExtractor"
+    # url of the running duckling server
+  url: "http://localhost:8000"
+    # dimensions to extract
+  dimensions: ["number", "email"]
+    # allows you to configure the locale, by default the language is
+    # used
+    # locale: "de_DE"
+    # if not set the default timezone of Duckling is going to be used
+    # needed to calculate dates from relative expressions like "tomorrow"
+    # timezone: "Europe/Berlin"
+
+# https://rasa.com/docs/rasa/core/policies/
+policies:
+- name: MemoizationPolicy
+- name: TEDPolicy
+  max_history: 6
+  epochs: 60
+  model_confidence: softmax
+  tensorboard_log_directory: ".tensorboard_ted"
+  tensorboard_log_level: "epoch"
+  constrain_similarities: true
+- name: RulePolicy
+  core_fallback_threshold: 0.7
+  core_fallback_action_name: "action_default_fallback"
+  enable_fallback_prediction: true

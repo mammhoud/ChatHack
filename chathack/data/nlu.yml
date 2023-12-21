@@ -1,0 +1,353 @@
+version: "3.1"
+nlu:
+- intent: bot_choice_courses
+  examples: |
+    - courses bot
+    - start with courses bot
+    - courses bot please
+    - courses bot
+    - i would like to talk to courses bot
+- intent: bot_choice_university
+  examples: |
+    - university bot
+    - start with university bot
+    - university bot please
+    - university bot
+    - i would like to talk to university bot
+
+- intent: bot_choice_shopping
+  examples: |
+    - shopping bot
+    - start with shopping bot
+    - shopping bot please
+    - shopping bot
+    - i would like to talk to shopping bot
+
+# shopping bot
+  #########################
+- intent: order_status
+  examples: |
+    - check status of my order
+    - when are my shirt coming in
+    - when will they get here
+    - I'd like to check the status of my order pls
+    - check status
+    - I'd like an update on my order
+    - Check status of my order
+    - I haven't received my order yet, can we check that?
+    - where is my order?
+    - I want to check the status of my order
+    - actually can I check the status of my order
+    - order status for example@rasa.com
+- intent: order_cancel
+  examples: |
+    - i'd like to cancel my order
+    - cancel my shirt
+    - I changed my mind on my order
+    - cancel my order
+- intent: return
+  examples: |
+    - start a return
+    - I don't want my shirt anymore
+    - how do I return these?
+    - return some shirt
+    - Which items are available to return?
+    - Start a return
+    - Okay. I would like to return some shirt I bought
+    - yeah I want to return something
+- intent: product_stock
+  examples: |
+    - do you have any [black](color) shirt in stock?
+    - what about [white](color) shirt
+    - what's your inventory
+    - are you out of size 9 shirt
+    - check inventory
+    - do you have my special shirt in stock
+    - Check inventory
+    - i'm looking for new shirt
+- intent: product_updates
+  examples: |
+    - what's new on the site?
+    - how do I find out updates
+    - I'd like to sign up for updates
+    - Subscribe to product updates
+    - subscribe to updates
+    - i [don't](negation) want to subscribe
+    - I [do not](negation) subscribe
+- intent: order_shirt
+  examples: |
+    - i want to buy shirt
+    - no, don't want to do a return, want to purchase new shirt
+    - since they're in stock, how about I place an order
+- intent: faq/alternate_info
+  examples: |
+    - Can I provide a phone number instead?
+    - Can anyone look up my status with my e-mail address?
+- intent: faq/sizing_clarification
+  examples: |
+    - American or european sizing?
+- intent: faq/payment_methods
+  examples: |
+    - what kind of payment methods do you offer?
+    - how do I pay
+- intent: faq/promotions
+  examples: |
+    - what kind of deals do you have
+    - are you running anything for black friday
+
+
+
+#########################
+# Request A Human
+#########################
+- intent: request_human
+  examples: |
+    - I want to talk to someone
+    - I wish to speak with your manager
+    - Get me a real person
+    - I want to talk to a human
+    - Give me a real person
+    - I request a human
+    - i dont want to talk to a chatbot!
+    - I don't want to speak to a computer
+    - i want to real man
+    - i want to real person
+    - i want to real human
+    - i want to real people
+    - اريد التحدث الى شخص ما
+    - أود التحدث مع مديرك
+    - احصل لي على شخص حقيقي
+    - اريد التحدث الى انسان
+    - أعطني شخصًا حقيقيًا
+    - أطلب إنسان
+    - لا أريد التحدث إلى روبوت محادثة!
+    - لا أريد التحدث إلى جهاز كمبيوتر
+    - can i speak with a real person?
+    - bring me someine real
+    - i want to speak to a real human
+    - i want to speak to a real person
+    - i want a real person
+    - ii want to speak to a real person
+    - may i speak to someone?
+    - i want to speak to someone real
+
+#########################
+# classic bot
+#########################
+
+- intent: inform
+  examples: |
+    - example@rasa.com
+    - my email is example@yahoo.com
+    - it's example@gmail.com
+    - [black](color) shirt
+    - [white](color) ones
+    - I'm looking for [orange](color) shirt
+    - [brown](color)
+    - [blue](color)
+    - it's 123
+    - it's a@b.com
+    - xyz@hulaloo.ai
+    - gray
+    - [Maize](color) and [blue](color)
+    - wait actually that email is wrong. it should be asdf1@asdf.com
+    - asdf@asdf.com
+    - [Grey](color)
+    - test@test.com
+    - [data science](course)
+    - [data science](course) course
+    - [data science](course) course please
+    - i need to know about [data science](course)
+    - i need to know about [data science](course) course
+    - i need to know about [data science](course) course please
+
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - Nah, I would not like to be added to the list
+    - nope
+    - u stink
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+    - yo
+    - HEY
+    - heyy
+    - Hey!!!
+    - hallo?
+
+- intent: chitchat/thanks
+  examples: |
+    - thx
+    - Awesome, thanks!
+    - thanks mate
+    - thank you
+- intent: chitchat/confirm_presence
+  examples: |
+    - are you there?
+- intent: chitchat/capabilities
+  examples: |
+    - What else can you do?
+    - what can you do?
+- intent: chitchat/mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+    - cool beans
+- intent: chitchat/mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+    - this is not working
+    - you suck
+- intent: chitchat/bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+- intent: chitchat/goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+- intent: out_of_scope
+  examples: |
+    - mmm I can't see what you're saying
+    - I am looking forward to my best friend's wedding. Do you have any tuxedo's?
+    - hmmmm
+    - Can I?
+    - Well, okay then
+    - what is the square root of 5
+    - I want to know the weather
+    - what is the meaning of life.
+    - Fridge Isn't Running
+    - my tv isn't working
+    - I want a pizza
+    - my washing machine isn't working
+    - what year is it
+    - order a pizza
+    - I want to order a pizza
+    - what is the weather today
+    - what is the weather
+    - why is the sky blue
+    - blah blah blah
+- intent: whats_your_name
+  examples: |
+    - can you tell me your name?
+    - what's your name?
+
+- intent: ask_for_details_course
+  examples: |
+    - i want to subscribe a course
+    - no, don't want to do a return, want to purchase new course
+    - how about I place an order
+    - i want to buy course
+    - i want to know about a course
+    
+- intent: ask_about_attendance
+  examples: |
+    - how many classes are there in a [week](deuration)?
+    - how many classes are there in a [month](deuration)?
+    - how many classes are there in a [day](deuration)?
+    - how many classes are there in a [year](deuration)?
+    - how many classes are there in a [semester](deuration)?
+    - how many classes are there in a [quarter](deuration)?
+    - how many classes are there in a [half year](deuration)?
+    - how many classes are there in a [session](deuration)?
+    - how many classes are there in a [term](deuration)?
+    - how many classes are there in a [period](deuration)?
+    - how many classes are there in a [cycle](deuration)?
+    - how many classes are there in a [round](deuration)?
+    - how many classes are there in a [circle](deuration)?
+    - how many classes are there in a [loop](deuration)?
+    - i need to know about [attendance]
+    - i need to know about [attendance] in [data science](course)
+    - i need to know about [attendance] in [data science](course) course
+    - i need to know about [attendance] in [data science](course) course please
+    - i need to know my attendance in [data science](course) course please
+    - i need to know my attendance in [data science](course) course
+    - i need to know my attendance in [data science](course)
+    - what is my attendance status in [data science](course)
+
+- intent: whats_your_age
+  examples: |
+    - how old are you?
+    - what is your age?
+    - how old is your platform?
+    - how old is your company?
+
+
+- intent: whats_your_uid
+  examples: |
+    - what is verfication id?
+    - what is uid?
+    - what is unique id?
+    - what is unique identification number?
+    - what is unique identification?
+    - what is unique id number?
+    - what is unique id no?
+    - what is unique id no.?
+    - how can i know my unique id number on the system?
+    - how can i know my unique id number in the system
+    - how can i know my unique id number on the system
+    - how can i know my unique id number in the system
+
