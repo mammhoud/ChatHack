@@ -5,7 +5,7 @@ recipe: default.v1
 
 
 language: en
-assistant_id: 
+assistant_id: 20231221-185416-coplanar-debug
 # pipeline:
 #  - <tokenizer>
 #  - <featurizer>
@@ -43,7 +43,7 @@ pipeline:
   model_confidence: softmax
   epochs: 100
   constrain_similarities: true
-  
+
 - name: ResponseSelector
   epochs: 100
   retrieval_intent: faq

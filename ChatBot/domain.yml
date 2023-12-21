@@ -122,13 +122,10 @@ responses:
     - payload: university bot
       title: university bot
     - payload: shopping bot
+    
       title: shopping bot
     - payload: course bot
       title: course bot
-    - payload: assistant bot
-      title: assistant bot
-    - payload: agent chat
-      title: agent chat
     text: Hi there! I'm a demo bot to help you with chat services, you can check for now the bots that implemented. How can I help you?
   utter_iam_fine:
   - text: I'm fine.
@@ -152,14 +149,7 @@ responses:
   - text: um, what did you just say to me?
   - text: beep, don't understand
   - text: I'm not sure I understand. Can you try providing more detail?
-  utter_no_order:
-  - text: Hmm, seems like we don't have an order associated with that email
-  utter_in_stock:
-  - text: You're in luck! We have those in stock.
-  utter_no_stock:
-  - text: Sorry, seems like we don't have those shirts.
-  utter_order_shirts:
-  - text: Sorry, I can't actually help you order the shirts. Please visit our site to buy some nice shirts! I can help you check inventory, see the status of an order or even make a change to that order.
+
   utter_ask_order_status_form_email:
   - text: I can help you find the status of your order. What's your email address so I can find the order?
   - text: I can help you find the status of your order. To help find your order, can you please provide your email address?
@@ -239,17 +229,6 @@ responses:
   - text: goodbye
   - text: see you
 
-  utter_start_over:
-  - text: Ok, let's start over.
-
-  utter_ask_survey_form_open_feedback:
-  - text: Is there any other feedback you can provide?
-  utter_survey_end:
-  - text: Thank you for the feedback!
-
-  utter_open_feedback:
-  - text: Here's your lovely feedback - {open_feedback}
-
   utter_ask_survey_form_rating:
   - buttons:
     - payload: '1'
@@ -263,6 +242,22 @@ responses:
     - payload: '5'
       title: '5'
     text: On a scale of 1-5, how would you rate your conversation today?
+  utter_ask_survey_form_open_feedback:
+  - text: Is there any other feedback you can provide?
+  utter_survey_end:
+  - text: Thank you for the feedback!
+  utter_start_over:
+  - text: Ok, let's start over.
+  utter_open_feedback:
+  - text: Here's your lovely feedback - {open_feedback}
+  utter_no_order:
+  - text: Hmm, seems like we don't have an order associated with that email
+  utter_in_stock:
+  - text: You're in luck! We have those in stock.
+  utter_no_stock:
+  - text: Sorry, seems like we don't have those shirts.
+  utter_order_shirts:
+  - text: Sorry, I can't actually help you order the shirts. Please visit our site to buy some nice shirts! I can help you check inventory, see the status of an order or even make a change to that order.
 actions:
 - action_product_search
 - action_survey_submit

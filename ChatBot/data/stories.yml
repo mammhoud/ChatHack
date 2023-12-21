@@ -74,7 +74,7 @@ stories:
 
 
 
-  - story: (Conversation) User logs in and requests a human
+- story: (Conversation) User logs in and requests a human
   steps:
   # - intent: log_in
   # - action: form_log_in

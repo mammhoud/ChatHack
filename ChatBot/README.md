@@ -46,7 +46,9 @@ make install
 ## Run the bot
 
 Use `rasa train` to train a model.
-
+```bash
+  rasa run -m models --enable-api --cors "*" --debug
+```
 Then, to run, first set up your action server in one terminal window:
 ```bash
 rasa run actions
