@@ -7,13 +7,19 @@ stories:
 
 - story: order tshirt
   steps:
-  - intent: order_tshirt
-  - action: utter_order_tshirt
-
+  - intent: bot_choice_virtual_assistant
+  - action: action_virtual_ai
 
 # bot choice stories
 
 - story: bot choice shopping
+  steps:
+  - intent: bot_choice_shopping
+  - action: utter_greet
+
+
+
+- story: bot choice VirtualAI
   steps:
   - intent: bot_choice_shopping
   - action: utter_greet

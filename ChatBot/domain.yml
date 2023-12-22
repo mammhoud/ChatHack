@@ -2,6 +2,7 @@ session_config:
   session_expiration_time: 20
   carry_over_slots_to_new_session: true
 intents:
+- bot_choice_virtual_assistant
 - bot_choice_shopping
 - order_status
 - order_cancel
@@ -18,6 +19,7 @@ intents:
 - out_of_scope
 - nlu_fallback
 - whats_your_name
+- request_human
 entities:
 - email
 - color
@@ -266,6 +268,7 @@ actions:
 - action_give_name
 - action_give_age
 - action_request_human
+- action_virtual_ai
 forms:
   order_status_form:
     ignored_intents: []

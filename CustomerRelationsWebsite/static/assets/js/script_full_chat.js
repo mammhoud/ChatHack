@@ -606,7 +606,23 @@ function setBotResponse(response) {
             // Sample format of the charts data:
             // var chartData =  {
             //  "title": "Leaves",
-            //  "labels": ["Sick Leave", "Casual Leave", "Earned Leave", "Flexi Leave"],
+            //  "labels": ["Remaining", "Consumed"],
+            // const jinjaData = {
+            //   title: "{{ title }}",
+            //   labels: {{ labels|safe }},
+            //   backgroundColor: {{ backgroundColor|safe }},
+            //   chartsData: {{ chartsData|safe }},
+            //   chartType: "{{ chartType }}",
+            //   displayLegend: "{{ displayLegend }}"
+            // };
+
+            // // Use the jinjaData object as needed
+            // console.log(jinjaData.title);
+            // console.log(jinjaData.labels);
+            // console.log(jinjaData.backgroundColor);
+            // console.log(jinjaData.chartsData);
+            // console.log(jinjaData.chartType);
+            // console.log(jinjaData.displayLegend);
             //  "backgroundColor": ["#36a2eb", "#ffcd56", "#ff6384", "#009688", "#c45850"],
             //  "chartsData": [5, 10, 22, 3],
             //  "chartType": "pie",

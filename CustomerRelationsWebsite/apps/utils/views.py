@@ -13,3 +13,9 @@ def index(request):
 def starter(request):
     context = {}
     return render(request, "themes/templates/pages/starter.html", context)
+
+
+
+def demo(request):
+    context = {}
+    return render(request, "themes/templates/pages/demo.html", context)

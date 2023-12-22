@@ -1,12 +1,15 @@
 version: "3.1"
 nlu:
-- intent: bot_choice_university
+- intent: bot_choice_virtual_assistant
   examples: |
-    - university bot
-    - start with university bot
-    - university bot please
-    - university bot
-    - i would like to talk to university bot
+    - AI Virtual Assistant
+    - AI Virtual Assistant please
+    - i need an ai Assistant
+    - i would like to talk to Virtual Assistant
+    - i would like to talk to Virtual Assistant please
+    - i would like to talk to Virtual Assistant please
+    - i would like to talk to Virtual Assistant
+
 
 - intent: bot_choice_shopping
   examples: |
