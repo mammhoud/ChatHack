@@ -32,24 +32,23 @@ pipeline:
   min_ngram: 1
   max_ngram: 4
 - name: DIETClassifier
-  epochs: 80
-  model_confidence: softmax
-  constrain_similarities: true
+  epochs: 100
+  constrain_similarities: false
   tensorboard_log_directory: ".tensorboard_diet"
-  tensorboard_log_level: "epoch"
 - name: EntitySynonymMapper
 
 - name: ResponseSelector
-  model_confidence: softmax
-  epochs: 100
-  constrain_similarities: true
+  epochs: 80
+  constrain_similarities: false
 
 - name: ResponseSelector
-  epochs: 100
+  epochs: 40
   retrieval_intent: faq
+  constrain_similarities: true
 - name: ResponseSelector
-  epochs: 100
+  epochs: 40
   retrieval_intent: chitchat
+  constrain_similarities: true
 - name: FallbackClassifier
   threshold: 0.3
   ambiguity_threshold: 0.1
@@ -72,8 +71,8 @@ policies:
   max_history: 6
   epochs: 60
   model_confidence: softmax
-  tensorboard_log_directory: ".tensorboard_ted"
-  tensorboard_log_level: "epoch"
+  # tensorboard_log_directory: ".tensorboard_ted"
+  # tensorboard_log_level: "epoch"
   constrain_similarities: true
 - name: RulePolicy
   core_fallback_threshold: 0.7

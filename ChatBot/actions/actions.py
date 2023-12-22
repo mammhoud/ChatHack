@@ -13,7 +13,7 @@ from rasa_sdk.events import (
     UserUtteranceReverted,
     ConversationPaused,
     EventType,
-    BotUttered,
+    BotUttered,FollowupAction,ActionExecuted,SessionStarted,
 )
 
 import cohere 
@@ -490,7 +490,7 @@ class ActionRequestHuman(Action):
                 + get_text_from_lang(tracker, text_anything_else)
             )
 
-            slack = SlackApp("demo")
+            slack = SlackApp("batot")
             slack.sendMessage(
                 f"{username} ({phone_number}) requested assistance.\nRasa Tracker sender ID: {sender_id}.\nSlots:\n{slot_values}"
             )
@@ -516,7 +516,6 @@ class ActionRequestHuman(Action):
 class ActionVirtualAI(Action):
     def name(self):
         return "action_virtual_ai"
-    co = cohere.Client('0C90CgzPNjeEnIJhoYCac84oXiPw8n32LQDX15Tk') # This is trial API key
 
     def run(
         self,
@@ -524,28 +523,32 @@ class ActionVirtualAI(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ):
-        response = co.chat( 
-            model='command',
-            message=tracker.latest_message.get('text') if not tracker.latest_message.get('text') == None or tracker.latest_message.get('text') in ("reset","back") else "hi",
-            temperature=0.3,
-            chat_history=[{"role": "User", "message": "hi"}, {"role": "Chatbot", "message": "Hello there! How can I assist you today? I\'m happy to help answer any questions or have a conversation about anything you\'d like. Go ahead and let me know how I can help you out today. \n\nIf you would like, I can also provide you with a list of topics that we can discuss. Just let me know if you have any preferences or areas of interest, and I\'ll do my best to assist you! \n\nIs there anything I can help you with today?"}, {"role": "User", "message": "i need assistant to help me in shopping"}, {"role": "Chatbot", "message": "Certainly! I\'d be happy to help you with your shopping. Here are some tips to help you with your shopping experience:\n\n- Set up alerts or notifications for the best deals: Many online retailers will allow you to set up alerts for when a product you\'re interested in drops in price, helping you get the best deal possible without constantly checking the website. There are also websites that track price histories for different products across multiple retailers, which can be useful in finding the best deal. \n\n- Ensure you\'re on an authentic website: Unfortunately, there are many fraudulent websites out there that look authentic. Shopping assistants can help you verify the authenticity of a website, ensuring your personal and payment information remains secure. \n\n- Use a shopping list: Creating a shopping list can help you stay organized and avoid making unnecessary purchases. \n\n- Compare prices: Different websites may offer different prices for the same product. Comparing prices between websites can help you find the best deal. \n\n- Read reviews: Product reviews can provide valuable insights into the quality and performance of a product, helping you make a more informed purchase decision. \n\n- Pay attention to shipping and return policies: Shipping and return policies can vary between different retailers. Being aware of these policies can help prevent any unwanted surprises. \n\n- Utilize customer support: Online retailers often provide customer support through live chat, email, or phone. If you have any questions or concerns about a product, customer support can help provide more information or assistance. \n\n- Take advantage of discounts and promotions: Many retailers offer discounts and promotions throughout the year, so keep an eye out for these opportunities to save money. \n\n- Use a credit card that offers rewards: Some credit cards provide rewards such as cash back or travel points for purchases made at certain retailers. Using one of these credit cards can help you earn rewards for your purchases. \n\nThese are some general tips that may help with your shopping experience. It\'d be helpful to know what specifically you need assistance with so I can tailor my suggestions to your needs. Is there a particular product or category you need help with?"}],
-            prompt_truncation='AUTO',
-            stream=True,
-            citation_quality='accurate',
-            connectors=[{"id":"web-search"}],
-            documents=[]
-            ) 
-        text = get_text_from_lang(
-            tracker,
-            [
-                "I'm sorry, I don't know how to help you with that. I can connect you with a human agent.",
-                "عذرا ، لا أعرف كيف يمكنني مساعدتك في ذلك. يمكنني أن أربطك بوكيل بشري.",
+        # last_call = None
+        # action_call = datetime.now()
+        # if last_call:
+        #     if (action_call - last_call).seconds < 600:
+        #         return [FollowupAction("action_listen")]
+        co = cohere.Client('0C90CgzPNjeEnIJhoYCac84oXiPw8n32LQDX15Tk') # This is trial API key
+        #if datetime.now().hour < 12:
+        response = co.chat(
+            chat_history=[
+                {"role": "CHATBOT", "message": "hey, how can my algo help!"},
+                {"role":  "USER", "message": "Hello there, i need some thinkgs to ask about but i need a virual assisstant to help me can you help me with that and answer at first with small definition about ai virtual assistant!"}, # This is the first message sent by the bot
             ],
+            message=tracker.latest_message.get("text"),
+            # perform web search before answering the question. You can also use your own custom connector.
+            connectors=[{"id": "web-search"}] 
         )
-        
-        print("\nBOT:", text)
-        dispatcher.utter_message(response)
-        return [FollowupAction("action_virtual_ai")]
+        print(response.text)
+
+        dispatcher.utter_message(response.text)
+        return [FollowupAction("action_listen")]
+
+        # if tracker.get_slot("is_virtual_assistant"):
+        #     return [FollowupAction("action_virtual_ai")]
+        # else:
+        #     return [FollowupAction("")]
+    
 ############################################################################################
 class GiveAge(Action):
     def name(self) -> Text:
