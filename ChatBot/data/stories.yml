@@ -25,7 +25,7 @@ stories:
   - action: action_virtual_ai
 
 
-- story: user choice VirtualAI
+- story: user choice shopping
   steps:
   - intent: bot_choice_shopping
   - action: utter_first_greet

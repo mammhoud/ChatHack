@@ -180,3 +180,12 @@ rules:
   - action: utter_start_over
   - action: action_deactivate_loop
   - active_loop: null
+
+
+# # make the bot deny to asking the same question from button
+# - rule: enter the message after click continue button in the action_virtual_ai
+#   steps:
+#   - action: action_virtual_ai
+#   - intent: affirm
+#   - action: utter_okay
+#   - active_loop: null

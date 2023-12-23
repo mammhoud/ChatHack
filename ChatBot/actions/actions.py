@@ -396,11 +396,11 @@ class ActionRequestHuman(Action):
                     'تم ارسال طلبك و لكن لقد طلبت مساعدة لكنك لم تسجل الدخول. الرجاء كتابة "تسجيل الدخول" لتسجيل الدخول. عذرا لا يمكننا التواصل معك مباشرتا الان',
                 ],
             )
-            dispatcher.utter_message(image="https://i.imgur.com/Z99thxA")
+            #dispatcher.utter_message(image="https://i.imgur.com/Z99thxA")
 
             ##print("\ntracker:", tracker.)
             print("\nBOT:", text)
-            dispatcher.utter_message(text)
+            dispatcher.utter_message(text, image="https://i.imgur.com/Z99thxA")
 
         return []
 ############################################################################################
@@ -417,10 +417,25 @@ class ActionVirtualAI(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        response = cohere.Client('0C90CgzPNjeEnIJhoYCac84oXiPw8n32LQDX15Tk').chat(
+        # dispatcher.utter_message(buttons = [
+        #     {"payload": "/affirm", "title": "Yes"},
+        #     {"payload": "/deny", "title": "No"},
+        # ], text="Do you want to ask another questions?")        
+        #user_message = {"user_name": "USER", "text": tracker.latest_message.get("text")}
+        #bot_message = {"user_name": "CHATBOT", "text": response.text}
+        #self.chat_hist.append(user_message)
+        #dispatcher.utter_message(text="Do you want to ask another questions?")
+        #ActionExecuted("action_listen")
+        co_response = None
+        if tracker.latest_message['intent'].get("name") in ("/affirm", "Yes","yes","continue","affirm"):
+            dispatcher.utter_message(text="Do you want to ask a questions?❓")
+            #ActionExecuted("action_listen")
+            #dispatcher.utter_message(text="❓?")
+        else:
+            co_response = cohere.Client('0C90CgzPNjeEnIJhoYCac84oXiPw8n32LQDX15Tk').chat(
             chat_history=[
-                {"role": "CHATBOT", "message": "Hey there, how can I help you?"},
-                {"role": "USER", "message": "I thinking about that i have a question to AI virtual assistants."},
+                {"role": "CHATBOT", "message": tracker.latest_message.get("text")},
+                {"role": "USER", "message": "❓"},
             ],
             message=tracker.latest_message.get("text"),  # Use the user's first message
             connectors=[{"id": "web-search"}],
@@ -428,22 +443,15 @@ class ActionVirtualAI(Action):
             documents=[],
             temperature=0.4,
         )
-        print(response.text)
+            dispatcher.utter_message(co_response.text) 
+
+        # print(response.text)
         # Events to be sent back
-        dispatcher.utter_message(response.text) 
-        dispatcher.utter_message(buttons = [
-            {"payload": "/affirm", "title": "Yes"},
-            {"payload": "/deny", "title": "No"},
-        ], text="Do you want to ask another questions?")        
-        #user_message = {"user_name": "USER", "text": tracker.latest_message.get("text")}
-        #bot_message = {"user_name": "CHATBOT", "text": response.text}
-        #self.chat_hist.append(user_message)
-        #dispatcher.utter_message(text="Do you want to ask another questions?")
-        ActionExecuted("action_listen")
-        if tracker.latest_message['intent'].get("name") == "/affirm":
-            FollowupAction("action_virtual_ai")
-        else:                
-            return []
+        #dispatcher.utter_message(response="utter_optional_virtual_ai")
+        dispatcher.utter_message(text="Do you want to ask another question ❓")
+        FollowupAction("action_virtual_ai")
+        # else:                
+        #     return []
         
 ############################################################################################
 #                                                                                          #

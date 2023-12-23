@@ -257,7 +257,7 @@ responses:
       title: 'back'
     - payload: 'continue'
       title: 'continue'
-    text: Do you want to continue with AI virtual Assistant or go back?
+    text: Do you love to continue with AI virtual Assistant or go back?
   utter_ask_survey_form_rating:
   - buttons:
     - payload: '1'
