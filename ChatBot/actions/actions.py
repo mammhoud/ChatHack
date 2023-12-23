@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import dis
+from email.mime import image
 import logging
 import json
 from datetime import datetime
@@ -482,7 +484,7 @@ class ActionRequestHuman(Action):
                         "You requested human help. Someone will contact you shortly on {}.".format(
                             phone_number
                         ),
-                        "لقد طلبت مساعدة بشرية. سيتصل بك شخص ما قريبًا في {}.".format(
+                        "لقد طلبت مساعدة. سيتصل بك شخص ما قريبًا في {}.".format(
                             phone_number
                         ),
                     ],
@@ -498,6 +500,7 @@ class ActionRequestHuman(Action):
 
             print("\nBOT:", text)
             dispatcher.utter_message(text)
+            dispatcher.utter_message(image="https://i.imgur.com/Z99thxA")
 
         else:
             text = get_text_from_lang(
@@ -520,6 +523,7 @@ class ActionVirtualAI(Action):
     def name(self):
         return "action_virtual_ai"
 
+    #chat_hist = []
     def run(
         self,
         dispatcher: CollectingDispatcher,
@@ -529,25 +533,67 @@ class ActionVirtualAI(Action):
         response = cohere.Client('0C90CgzPNjeEnIJhoYCac84oXiPw8n32LQDX15Tk').chat(
             chat_history=[
                 {"role": "CHATBOT", "message": "Hey there, how can I help you?"},
-                {"role": "USER", "message": "I have a question to AI virtual assistants."},
+                {"role": "USER", "message": "I thinking about that i have a question to AI virtual assistants."},
             ],
             message=tracker.latest_message.get("text"),  # Use the user's first message
-            connectors=[{"id": "web-search"}],  # You can add more connectors here
+            connectors=[{"id": "web-search","continue_on_failure":true}],
+            prompt_truncation="AUTO",
+            documents=[],
+            temperature=0.4,
         )
         print(response.text)
         # Events to be sent back
         dispatcher.utter_message(response.text) 
-        dispatcher.utter_message(text="Do you have any other questions?")
         # dispatcher.utter_message(buttons = [
         #     {"payload": "/affirm", "title": "Yes"},
         #     {"payload": "/deny", "title": "No"},
         # ])        
-
+        #user_message = {"user_name": "USER", "text": tracker.latest_message.get("text")}
+        #bot_message = {"user_name": "CHATBOT", "text": response.text}
+        #self.chat_hist.append(user_message)
+        dispatcher.utter_message(text="Do you want to ask another questions?")
         ActionExecuted("action_listen")
         if tracker.latest_message['intent'].get("name") == "/affirm":
             FollowupAction("action_virtual_ai")
         else:                
             return []
+        
+############################################################################################
+#                               API COHERE CALLS                                           #
+############################################################################################
+
+# class ActionVirtualAI(Action):
+#     def name(self):
+#         return "action_virtual_ai"
+
+#     def run(
+#         self,
+#         dispatcher: CollectingDispatcher,
+#         tracker: Tracker,
+#         domain: Dict[Text, Any],
+#     ) -> List[Dict[Text, Any]]:
+#         response = cohere.Client('0C90CgzPNjeEnIJhoYCac84oXiPw8n32LQDX15Tk').chat(
+#             chat_history=[
+#                 {"role": "CHATBOT", "message": "Hey there, how can I help you?"},
+#                 {"role": "USER", "message": "I thinking about that i have a question to AI virtual assistants."},
+#             ],
+#             message=tracker.latest_message.get("text"),  # Use the user's first message
+#             connectors=[{"id": "web-search"}],  # You can add more connectors here
+#         )
+#         print(response.text)
+#         # Events to be sent back
+#         dispatcher.utter_message(response.text) 
+#         dispatcher.utter_message(text="Do you want to ask another questions?")
+#         # dispatcher.utter_message(buttons = [
+#         #     {"payload": "/affirm", "title": "Yes"},
+#         #     {"payload": "/deny", "title": "No"},
+#         # ])        
+
+#         ActionExecuted("action_listen")
+#         if tracker.latest_message['intent'].get("name") == "/affirm":
+#             FollowupAction("action_virtual_ai")
+#         else:                
+#             return []
 ############################################################################################
 #                                 Stack Slots                                              #
 ############################################################################################
@@ -562,7 +608,7 @@ class GiveAge(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         evt = BotUttered(text="my age is bot? idk", metadata={"ageGiven": "bot"})
-
+        
         return [evt]
 
 

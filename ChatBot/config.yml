@@ -10,6 +10,13 @@ assistant_id: 20231221-185416-coplanar-debug
 
 # https://rasa.com/docs/rasa/tuning-your-model more information.
 pipeline:
+
+
+# - name: LanguageodelFeaturizer
+#   model_name: "bert"
+#   model_weights: "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2" # bert-base-multilingual-cased
+
+
 - name: WhitespaceTokenizer
 - name: RegexFeaturizer
 - name: LexicalSyntacticFeaturizer

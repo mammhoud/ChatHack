@@ -170,3 +170,6 @@ google-api-python-client==1.12.8
 google-auth-httplib2==0.0.4
 googleapis-common-protos==1.52.0
 slackeventsapi==2.1.0
+
+
+#sentence-transformers

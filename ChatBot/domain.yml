@@ -251,13 +251,13 @@ responses:
   - text: Bye bye bye
   - text: Bye for now
   - text: Bye
-  utter_optional:
+  utter_optional_virtual_ai:
   - buttons:
     - payload: 'back'
       title: 'back'
     - payload: 'continue'
       title: 'continue'
-    text: Do you want to continue or go back?
+    text: Do you want to continue with AI virtual Assistant or go back?
   utter_ask_survey_form_rating:
   - buttons:
     - payload: '1'
@@ -277,6 +277,8 @@ responses:
   - text: Thank you for the feedback!
   utter_start_over:
   - text: Ok, let's start over.
+
+
   utter_open_feedback:
   - text: Here's your lovely feedback - {open_feedback}
   utter_no_order:

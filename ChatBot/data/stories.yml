@@ -83,6 +83,8 @@ stories:
   - action: action_give_name
   # - intent: whats_your_age
   # - action: action_give_age
+  - action: action_deactivate_loop
+  - active_loop: null
 
 
 - story: out of scope
@@ -93,8 +95,10 @@ stories:
     - intent: bot_choice_virtual_assistant
   - action: action_virtual_ai
   #- action: utter_start_over
+  - action: action_deactivate_loop
+  - active_loop: null
 
-- story: (Conversation) User logs in and requests a human
+- story: requests a human
   steps:
   # - intent: log_in
   # - action: form_log_in
@@ -104,7 +108,7 @@ stories:
   # - intent: out_of_scope
   # - action: form_log_in
   # - slot_was_set:
-  #   - username: Chris
+  #   - username: +******
   # - intent: out_of_scope
   # - action: form_log_in
   # - active_loop: null
@@ -113,3 +117,29 @@ stories:
   # - action: action_submit_form_log_in
   - intent: request_human
   - action: action_request_human
+  - action: action_deactivate_loop
+  - active_loop: null
+
+
+
+- story: requests a human -> check if user wants continue using virtual ai or not
+  steps:
+  - intent: request_human
+  - action: action_request_human
+  - intent: deny
+  - action: utter_optional_virtual_ai
+  - intent: affirm
+  - action: action_deactivate_loop
+  - active_loop: null
+
+- story: requests a human -> but he need to start over
+  steps:
+  - intent: request_human
+  - action: action_request_human
+
+  - intent: deny
+  - action: utter_start_over
+  - action: utter_first_greet
+  - action: action_deactivate_loop
+  - active_loop: null
+
