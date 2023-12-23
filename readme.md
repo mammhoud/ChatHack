@@ -4,7 +4,7 @@ DeepBot-ChatHack is a repository that contains the code and resources for a webs
 
 ## Requirements and Guidelines for Submission
 
-### Note chatbot Database is the some models form web-apps schemas, so you should run the web server first or you will get error while runs the actions server  
+### Note chatbot Database has some models form web-apps schemas, so you should run the web server first or you will get error while runs rasa actions server  
 
 1. Clone the repository: Use the command `git clone https://github.com/mammhoud/DeepBot-ChatHack.git` to create a local copy of the repository on your machine.
 
