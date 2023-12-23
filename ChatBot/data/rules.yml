@@ -140,6 +140,7 @@ rules:
     entities:
     - negation: value
   - action: utter_start_over
+  - intent: affirm
   - action: utter_greet
   - action: action_deactivate_loop
   - active_loop: null
@@ -184,3 +185,31 @@ rules:
   - action: survey_form
   - active_loop: null
   - action: action_survey_submit
+
+# fallback & start over
+- rule: fallback
+  steps:
+  - action: utter_default
+  - action: utter_start_over
+  - action: action_deactivate_loop
+  - active_loop: null
+
+- rule: start over
+  steps:
+  - intent: deny
+  - action: utter_optional_virtual_ai
+  - intent: affirm
+  - action: action_virtual_ai
+
+  - active_loop: null
+
+
+- rule: start over
+  steps:
+  - intent: deny
+  - action: utter_optional_virtual_ai
+  - intent: deny
+  - action: utter_first_greet
+
+  - active_loop: null
+

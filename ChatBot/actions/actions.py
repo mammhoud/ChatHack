@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-import dis
-from email.mime import image
-import logging
-import json
-from datetime import datetime
 from typing import Any, Dict, List, Text, Optional
 
+
+from .slack_api import SlackApp
 from rasa_sdk import Action, Tracker
 from rasa_sdk.types import DomainDict
 from rasa_sdk.forms import FormValidationAction
@@ -24,10 +21,14 @@ import cohere
 import requests
 import googlesearch
 import mysql.connector
+import dis
+from email.mime import image
+import logging
+import json
+from datetime import datetime
 
 # import pycountry
 
-from slack import WebClient
 
 # from slack_sdk import WebClient
 # from slack_sdk.errors import SlackApiError
@@ -68,109 +69,10 @@ buttons_yes_no_emoji = [
 
 button_stop_emoji = [{'title': '🚫', 'payload': '/stop'}]
 buttons_yes_no_stop_emoji = buttons_yes_no_emoji + button_stop_emoji
-      
-####################################################################################################
-# LANGUAGES                                                                                        #                      
-####################################################################################################
-
-def get_lang(tracker):
-    try:
-        lang = tracker.slots['language'].title()
-        return lang
-    except Exception as e:
-        return 'English'
-
-def get_lang_index(tracker):
-    return lang_list.index(get_lang(tracker))
-
-''' utter_list is a list of outputs in multiple lanaguages, each output can be a string or a list of strings '''
-def get_text_from_lang(tracker, utter_list = []):
-    lang_index = get_lang_index(tracker)
-
-    if not utter_list: # No text was given for any language
-        return '[NO TEXT DEFINED]'
-
-    if lang_index >= len(utter_list): # No text defined for current language
-        lang_index = 0
-
-    text = utter_list[lang_index]
-
-    if isinstance(text, list): # If a list is given for the language, choose a random item
-        text = str(text[random.randint(0,len(text)-1)])
-    else:
-        text = str(text)
-    
-    return text 
-    
-def get_response_from_lang(tracker, response):
-    return response + '_' + get_lang(tracker)
-
-def get_buttons_from_lang(tracker, titles = [], payloads = []):
-    lang_index = get_lang_index(tracker)
-    buttons    = []
-
-    if lang_index >= len(payloads): # No text defined for current language
-        lang_index = 0
-    
-    for i in range(min(len(titles[lang_index]), len(payloads))):
-        buttons.append({'title': titles[lang_index][i], 'payload': payloads[i]})
-    return buttons
-
-class ActionUtterAskLanguage(Action):
-    def name(self):
-        return 'action_utter_ask_language'
-    
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict[Text, Any]]:
-        
-        
-        text = get_text_from_lang(
-            tracker,
-            ['Choose a language:',
-            ':اختر لغة'])
-
-        buttons = [ # https://forum.rasa.com/t/slots-set-by-clicking-buttons/27629
-            {'title': 'English',  'payload': '/set_language{"language": "English"}'},
-            {'title': 'عربي',     'payload': '/set_language{"language": "Arabic"}'},
-        ]
-       
-        print('\nBOT:', text, buttons)
-        dispatcher.utter_message(text = text, buttons = buttons)
-        return []
-
-class ActionUtterSetLanguage(Action):
-    def name(self) -> Text:
-        return 'action_utter_set_language'
-    
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict[Text, Any]]:
-        
-
-        current_language = tracker.slots['language'].title()
-        text = 'I only understand English, French, Arabic, and Armenian. The language is now English.'
-        
-        if current_language == 'English':
-            text = 'The language is now English.'
-        elif current_language == 'Arabic':
-            text = 'اللغة الآن هي العربية.'
-
-        print('\nBOT:', text)
-        dispatcher.utter_message(text = text)
-        
-        if not tracker.get_slot('service_type'):
-            return [FollowupAction('action_utter_service_types')]
-        return []
+  
         
 ####################################################################################################
-# DEFAULT RASA ACTIONS                                                                             #
+#                                    DEFAULT RASA ACTIONS                                          #
 ####################################################################################################
 
 
@@ -205,6 +107,67 @@ class ActionSessionStart(Action):
         events.append(ActionExecuted("action_listen"))
 
         return events
+class GiveName(Action):
+    def name(self) -> Text:
+        return "action_give_name"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        evt = BotUttered(text="my name is bot? idk", metadata={"nameGiven": "bot"})
+
+        return [evt]
+
+class SurveySubmit(Action):
+    def name(self) -> Text:
+        return "action_survey_submit"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message(response="utter_open_feedback")
+        dispatcher.utter_message(response="utter_survey_end")
+        return [SlotSet("survey_complete", True)]
+class GiveAge(Action):
+    def name(self) -> Text:
+        return "action_give_age"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        evt = BotUttered(text="my age is bot? idk", metadata={"ageGiven": "bot"})
+        
+        return [evt]
+
+
+class GiveUid(Action):
+    def name(self) -> Text:
+        return "action_give_uid"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        evt = BotUttered(text="my uid is bot? idk", metadata={"uidGiven": "bot"})
+
+        return [evt]
+
+
+
+####################################################################################################
+#                                    Bot Shopping Actions                                          #
+####################################################################################################
 
 
 class ActionProductSearch(Action):
@@ -243,20 +206,6 @@ class ActionProductSearch(Action):
             slots_to_reset = ["size", "color"]
             return [SlotSet(slot, None) for slot in slots_to_reset]
 
-
-class SurveySubmit(Action):
-    def name(self) -> Text:
-        return "action_survey_submit"
-
-    async def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(response="utter_open_feedback")
-        dispatcher.utter_message(response="utter_survey_end")
-        return [SlotSet("survey_complete", True)]
 
 
 class OrderStatus(Action):
@@ -372,73 +321,10 @@ class ReturnOrder(Action):
             return []
 
 
-class GiveName(Action):
-    def name(self) -> Text:
-        return "action_give_name"
-
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict[Text, Any]]:
-        evt = BotUttered(text="my name is bot? idk", metadata={"nameGiven": "bot"})
-
-        return [evt]
-
 
 ####################################################################################################
-# HANDOFF                                                                                          #
+#                                            HANDOFF                                               #
 ####################################################################################################
-
-
-class SlackApp:
-    def __init__(self, channel_name=None, channel_id=None):
-        self.token = open("secret_slack_token.txt", "r").readlines()[0]
-        self.client = WebClient(token=self.token)
-
-        self.users = self.client.users_list()
-
-        self.channel = None
-        self.channel_name = channel_name
-        self.channel_id = channel_id
-
-        if channel_name:
-            self.getChannelId(channel_name)
-
-    def getChannelId(self, channel_name=None):
-        """Get the Channel's ID from its name"""
-        name = channel_name if channel_name else self.channel_name
-
-        try:
-            for channel in self.client.conversations_list()["channels"]:
-                if channel["name"] == name:
-                    self.channel = channel
-                    self.channel_name = channel["name"]
-                    self.channel_id = channel["id"]
-                    return channel["id"]
-            return None
-
-        except Exception as e:
-            print(f"SlackApp getChannelId Error: {e}")
-            return None
-
-    def sendMessage(self, message="", channel_name=None):
-        """Check https://api.slack.com/reference/surfaces/formatting for message formatting"""
-        channel_id = (
-            self.getChannelId(channel_name)
-            if (channel_name or not self.channel_id)
-            else self.channel_id
-        )
-
-        try:
-            result = self.client.chat_postMessage(channel=channel_id, text=message)
-            return result
-
-        except Exception as e:
-            print(f"SlackApp sendMessage Error: {e}")
-            return None
-
 
 class ActionRequestHuman(Action):
     def name(self):
@@ -507,10 +393,11 @@ class ActionRequestHuman(Action):
                 tracker,
                 [
                     'You requested human help but are not logged in. Please type "log in" to log in.',
-                    'تم ارسال طلبك و لكن لقد طلبت مساعدة لكنك لم تسجل الدخول. الرجاء كتابة "تسجيل الدخول" لتسجيل الدخول.',
+                    'تم ارسال طلبك و لكن لقد طلبت مساعدة لكنك لم تسجل الدخول. الرجاء كتابة "تسجيل الدخول" لتسجيل الدخول. عذرا لا يمكننا التواصل معك مباشرتا الان',
                 ],
             )
-            
+            dispatcher.utter_message(image="https://i.imgur.com/Z99thxA")
+
             ##print("\ntracker:", tracker.)
             print("\nBOT:", text)
             dispatcher.utter_message(text)
@@ -536,7 +423,7 @@ class ActionVirtualAI(Action):
                 {"role": "USER", "message": "I thinking about that i have a question to AI virtual assistants."},
             ],
             message=tracker.latest_message.get("text"),  # Use the user's first message
-            connectors=[{"id": "web-search","continue_on_failure":true}],
+            connectors=[{"id": "web-search"}],
             prompt_truncation="AUTO",
             documents=[],
             temperature=0.4,
@@ -544,14 +431,14 @@ class ActionVirtualAI(Action):
         print(response.text)
         # Events to be sent back
         dispatcher.utter_message(response.text) 
-        # dispatcher.utter_message(buttons = [
-        #     {"payload": "/affirm", "title": "Yes"},
-        #     {"payload": "/deny", "title": "No"},
-        # ])        
+        dispatcher.utter_message(buttons = [
+            {"payload": "/affirm", "title": "Yes"},
+            {"payload": "/deny", "title": "No"},
+        ], text="Do you want to ask another questions?")        
         #user_message = {"user_name": "USER", "text": tracker.latest_message.get("text")}
         #bot_message = {"user_name": "CHATBOT", "text": response.text}
         #self.chat_hist.append(user_message)
-        dispatcher.utter_message(text="Do you want to ask another questions?")
+        #dispatcher.utter_message(text="Do you want to ask another questions?")
         ActionExecuted("action_listen")
         if tracker.latest_message['intent'].get("name") == "/affirm":
             FollowupAction("action_virtual_ai")
@@ -559,7 +446,7 @@ class ActionVirtualAI(Action):
             return []
         
 ############################################################################################
-#                               API COHERE CALLS                                           #
+#                                                                                          #
 ############################################################################################
 
 # class ActionVirtualAI(Action):
@@ -597,33 +484,104 @@ class ActionVirtualAI(Action):
 ############################################################################################
 #                                 Stack Slots                                              #
 ############################################################################################
-class GiveAge(Action):
-    def name(self) -> Text:
-        return "action_give_age"
 
+    
+####################################################################################################
+#                                           LANGUAGES                                              #                      
+####################################################################################################
+
+def get_lang(tracker):
+    try:
+        lang = tracker.slots['language'].title()
+        return lang
+    except Exception as e:
+        return 'English'
+
+def get_lang_index(tracker):
+    return lang_list.index(get_lang(tracker))
+
+''' utter_list is a list of outputs in multiple lanaguages, each output can be a string or a list of strings '''
+def get_text_from_lang(tracker, utter_list = []):
+    lang_index = get_lang_index(tracker)
+
+    if not utter_list: # No text was given for any language
+        return '[NO TEXT DEFINED]'
+
+    if lang_index >= len(utter_list): # No text defined for current language
+        lang_index = 0
+
+    text = utter_list[lang_index]
+
+    if isinstance(text, list): # If a list is given for the language, choose a random item
+        text = str(text[random.randint(0,len(text)-1)])
+    else:
+        text = str(text)
+    
+    return text 
+    
+def get_response_from_lang(tracker, response):
+    return response + '_' + get_lang(tracker)
+
+def get_buttons_from_lang(tracker, titles = [], payloads = []):
+    lang_index = get_lang_index(tracker)
+    buttons    = []
+
+    if lang_index >= len(payloads): # No text defined for current language
+        lang_index = 0
+    
+    for i in range(min(len(titles[lang_index]), len(payloads))):
+        buttons.append({'title': titles[lang_index][i], 'payload': payloads[i]})
+    return buttons
+
+class ActionUtterAskLanguage(Action):
+    def name(self):
+        return 'action_utter_ask_language'
+    
     def run(
         self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        evt = BotUttered(text="my age is bot? idk", metadata={"ageGiven": "bot"})
         
-        return [evt]
+        
+        text = get_text_from_lang(
+            tracker,
+            ['Choose a language:',
+            ':اختر لغة'])
 
+        buttons = [ # https://forum.rasa.com/t/slots-set-by-clicking-buttons/27629
+            {'title': 'English',  'payload': '/set_language{"language": "English"}'},
+            {'title': 'عربي',     'payload': '/set_language{"language": "Arabic"}'},
+        ]
+       
+        print('\nBOT:', text, buttons)
+        dispatcher.utter_message(text = text, buttons = buttons)
+        return []
 
-class GiveUid(Action):
+class ActionUtterSetLanguage(Action):
     def name(self) -> Text:
-        return "action_give_uid"
-
+        return 'action_utter_set_language'
+    
     def run(
         self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        evt = BotUttered(text="my uid is bot? idk", metadata={"uidGiven": "bot"})
+        
 
-        return [evt]
+        current_language = tracker.slots['language'].title()
+        text = 'I only understand English, French, Arabic, and Armenian. The language is now English.'
+        
+        if current_language == 'English':
+            text = 'The language is now English.'
+        elif current_language == 'Arabic':
+            text = 'اللغة الآن هي العربية.'
 
-
+        print('\nBOT:', text)
+        dispatcher.utter_message(text = text)
+        
+        if not tracker.get_slot('service_type'):
+            return [FollowupAction('action_utter_service_types')]
+        return []

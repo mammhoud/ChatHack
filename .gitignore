@@ -15,7 +15,7 @@ logs/
 node_modules
 .github/
 venv/
-models/
+*/models/Backup/
 
 
 staticfiles

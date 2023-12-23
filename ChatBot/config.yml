@@ -5,7 +5,7 @@ recipe: default.v1
 
 
 language: en
-assistant_id: 20231221-185416-coplanar-debug
+assistant_id: 20231223-073656-violent-plaster #20231223-074608-soft-relationship
 
 
 # https://rasa.com/docs/rasa/tuning-your-model more information.

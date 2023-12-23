@@ -23,8 +23,6 @@ stories:
   - action: utter_optional_virtual_ai
   - intent: affirm
   - action: action_virtual_ai
-  - action: action_deactivate_loop
-  - active_loop: null
 
 
 - story: user choice VirtualAI
@@ -38,7 +36,7 @@ stories:
   - active_loop: product_stock_form
   - intent: deny
   - action: utter_start_over
-  - action: utter_first_greet
+  - action: utter_greet
   - action: action_deactivate_loop
   - active_loop: null
 
@@ -47,7 +45,7 @@ stories:
   - active_loop: order_status_form
   - intent: deny
   - action: utter_start_over
-  - action: utter_first_greet
+  - action: utter_greet
   - action: action_deactivate_loop
   - active_loop: null
 
@@ -56,7 +54,7 @@ stories:
   - active_loop: cancel_form
   - intent: deny
   - action: utter_start_over
-  - action: utter_first_greet
+  - action: utter_greet
   - action: action_deactivate_loop
   - active_loop: null
 
@@ -65,7 +63,7 @@ stories:
   - active_loop: return_form
   - intent: deny
   - action: utter_start_over
-  - action: utter_first_greet
+  - action: utter_greet
   - action: action_deactivate_loop
   - active_loop: null
 
@@ -85,8 +83,6 @@ stories:
   - action: action_give_name
   # - intent: whats_your_age
   # - action: action_give_age
-  - action: action_deactivate_loop
-  - active_loop: null
 
 
 - story: out of scope
@@ -97,8 +93,7 @@ stories:
     - intent: bot_choice_virtual_assistant
   - action: action_virtual_ai
   #- action: utter_start_over
-  - action: action_deactivate_loop
-  - active_loop: null
+
 
 - story: requests a human
   steps:
@@ -119,8 +114,11 @@ stories:
   # - action: action_submit_form_log_in
   - intent: request_human
   - action: action_request_human
-  - action: action_deactivate_loop
-  - active_loop: null
+  - or:
+    - intent: nlu_fallback
+    - intent: out_of_scope
+    - intent: bot_choice_virtual_assistant
+  - action: action_virtual_ai
 
 
 
@@ -131,17 +129,12 @@ stories:
   - intent: deny
   - action: utter_optional_virtual_ai
   - intent: affirm
-  - action: action_deactivate_loop
-  - active_loop: null
 
 - story: requests a human -> but he need to start over
   steps:
   - intent: request_human
   - action: action_request_human
-
+#####################################
   - intent: deny
   - action: utter_start_over
-  - action: utter_first_greet
-  - action: action_deactivate_loop
-  - active_loop: null
-
+  #- action: utter_first_greet
