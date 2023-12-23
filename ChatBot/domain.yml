@@ -24,7 +24,7 @@ entities:
 - email
 - color
 - number
-- negation
+# - negation
 - uid
 - name
 - age

@@ -121,6 +121,40 @@ stories:
   - action: action_virtual_ai
 
 
+- story: start over -> start VirtualAI
+  steps:
+  - intent: deny
+  - action: utter_optional_virtual_ai
+  - intent: affirm
+  - action: action_virtual_ai
+
+  - active_loop: null
+
+
+# - story: user uses negation to cancel out of product updates
+#   # condition:
+#   # - active_loop: product_updates_form
+#   steps:
+#   - intent: product_updates
+#     # entities:
+#     # - negation: value
+#   - action: utter_start_over
+#   - intent: affirm
+#   - action: utter_greet
+#   - action: action_deactivate_loop
+#   - active_loop: null
+
+
+- story: start over  -> back to greet
+  steps:
+  - intent: deny
+  - action: utter_optional_virtual_ai
+  - intent: deny
+  - action: utter_first_greet
+
+  - active_loop: null
+
+
 
 - story: requests a human -> check if user wants to continue using virtual ai or not
   steps:
