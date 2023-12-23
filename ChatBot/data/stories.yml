@@ -5,27 +5,29 @@ stories:
   - intent: greet
   - action: utter_first_greet
 
-- story: order tshirt
+- story: user need to use virtual ai
   steps:
   - intent: bot_choice_virtual_assistant
   - action: action_virtual_ai
 
 # bot choice stories
 
-- story: bot choice shopping
+- story: user choice shopping bot
   steps:
   - intent: bot_choice_shopping
   - action: utter_first_greet
 
-- story: action virtual ai -> check if user wants continue using virtual ai or not
+- story: action virtual ai -> check if user wants to continue using virtual ai or not
   steps:
   - action: action_virtual_ai
-  - action: utter_optional
+  - action: utter_optional_virtual_ai
   - intent: affirm
   - action: action_virtual_ai
+  - action: action_deactivate_loop
+  - active_loop: null
 
 
-- story: bot choice VirtualAI
+- story: user choice VirtualAI
   steps:
   - intent: bot_choice_shopping
   - action: utter_first_greet
@@ -122,7 +124,7 @@ stories:
 
 
 
-- story: requests a human -> check if user wants continue using virtual ai or not
+- story: requests a human -> check if user wants to continue using virtual ai or not
   steps:
   - intent: request_human
   - action: action_request_human
