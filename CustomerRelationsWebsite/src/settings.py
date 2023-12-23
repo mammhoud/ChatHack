@@ -90,7 +90,7 @@ INSTALLED_APPS = [
 
     'apps.organizations',
 
-    "apps.tickets",
+    "apps.consumers",
     "import_export",
     #"debug_toolbar",
 ]

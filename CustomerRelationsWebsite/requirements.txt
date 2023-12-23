@@ -35,6 +35,9 @@ djongo
 django-filter
 drf-spectacular
 
+
+faker
+
 timestamps
 tablib
 Pillow

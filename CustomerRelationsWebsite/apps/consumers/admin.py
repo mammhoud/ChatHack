@@ -4,7 +4,7 @@ from django.apps import apps
 from django.contrib.auth.models import User
 from import_export.admin import ImportExportModelAdmin
 
-app_models = apps.get_app_config('tickets').get_models()
+app_models = apps.get_app_config('consumers').get_models()
 for model in app_models:
     try:
         admin.site.register(model, ImportExportModelAdmin)

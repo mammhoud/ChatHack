@@ -14,8 +14,8 @@ intents:
 - inform
 - order_tshirt
 - greet
-- chitchat
-- faq
+- sign
+- qa
 - out_of_scope
 - nlu_fallback
 - whats_your_name
@@ -193,41 +193,41 @@ responses:
   utter_confirm_email:
   - text: I already have your email on file. Would you like me to look up your order under {email}?
   - text: I have your email on file. Would you like me to look up your order under {email}?
-  utter_faq/alternate_info:
+  utter_qa/alternate_info:
   - text: Currenty we can only provide order information based on email.
-  utter_faq/sizing_clarification:
+  utter_qa/sizing_clarification:
   - text: Right now we only offer the stored sizes. We'll try to change this in the future!
 
-  utter_faq/payment_methods:
+  utter_qa/payment_methods:
   - text: We accept all major credit cards, Apple Pay, Google Pay, and PayPal Via a Banking transactions.
 
-  utter_faq/promotions:
+  utter_qa/promotions:
   - text: Currently, we're running a buy one get one half off promotion!
 
-  utter_chitchat/thanks:
+  utter_sign/thanks:
   - text: No problem!
   - text: I have no choice but to help you.
   - text: I try my best
   - text: You're welcome!
   - text: I'm here to help!
-  utter_chitchat/confirm_presence:
+  utter_sign/confirm_presence:
   - text: yep I'm here.
   - text: unfortunately, I'm still listening.
   - text: I'm here, what's up?
 
-  utter_chitchat/capabilities:
+  utter_sign/capabilities:
   - text: I can help you start a return, subscribe to our emails, and even see if we carry your desired tshirt.
   - text: I can help you with orders, returns, and product updates.
 
-  utter_chitchat/mood_great:
+  utter_sign/mood_great:
   - text: Superb!
   - text: right on
-  utter_chitchat/mood_unhappy:
+  utter_sign/mood_unhappy:
   - text: sorry to hear that :(
   - text: ok can you be nice to me
-  utter_chitchat/bot_challenge:
+  utter_sign/bot_challenge:
   - text: I'm a bot, silly
-  utter_chitchat/goodbye:
+  utter_sign/goodbye:
   - text: bye bye
   - text: have a nice time 
   - text: see you later
@@ -235,6 +235,29 @@ responses:
   - text: goodbye
   - text: see you
 
+
+  utter_close:
+  - text: Bye
+  - text: Goodbye
+  - text: See you later
+  - text: Bye bye
+  - text: Bye for now
+  - text: Catch you later
+  - text: TTFN
+  - text: TTYL
+  - text: Talk to you later
+  - text: Peace out
+  - text: See you later alligator
+  - text: Bye bye bye
+  - text: Bye for now
+  - text: Bye
+  utter_optional:
+  - buttons:
+    - payload: 'back'
+      title: 'back'
+    - payload: 'continue'
+      title: 'continue'
+    text: Do you want to continue or go back?
   utter_ask_survey_form_rating:
   - buttons:
     - payload: '1'
@@ -274,6 +297,7 @@ actions:
 - action_give_age
 - action_request_human
 - action_virtual_ai
+
 forms:
   order_status_form:
     ignored_intents: []

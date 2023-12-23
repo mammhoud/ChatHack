@@ -15,14 +15,20 @@ stories:
 - story: bot choice shopping
   steps:
   - intent: bot_choice_shopping
-  - action: utter_greet
+  - action: utter_first_greet
 
+- story: action virtual ai -> check if user wants continue using virtual ai or not
+  steps:
+  - action: action_virtual_ai
+  - action: utter_optional
+  - intent: affirm
+  - action: action_virtual_ai
 
 
 - story: bot choice VirtualAI
   steps:
   - intent: bot_choice_shopping
-  - action: utter_greet
+  - action: utter_first_greet
 # cancel stories shopping bot
 
 - story: User stops product_stock
@@ -30,7 +36,7 @@ stories:
   - active_loop: product_stock_form
   - intent: deny
   - action: utter_start_over
-  - action: utter_greet
+  - action: utter_first_greet
   - action: action_deactivate_loop
   - active_loop: null
 
@@ -39,7 +45,7 @@ stories:
   - active_loop: order_status_form
   - intent: deny
   - action: utter_start_over
-  - action: utter_greet
+  - action: utter_first_greet
   - action: action_deactivate_loop
   - active_loop: null
 
@@ -48,7 +54,7 @@ stories:
   - active_loop: cancel_form
   - intent: deny
   - action: utter_start_over
-  - action: utter_greet
+  - action: utter_first_greet
   - action: action_deactivate_loop
   - active_loop: null
 
@@ -57,7 +63,7 @@ stories:
   - active_loop: return_form
   - intent: deny
   - action: utter_start_over
-  - action: utter_greet
+  - action: utter_first_greet
   - action: action_deactivate_loop
   - active_loop: null
 
@@ -66,7 +72,7 @@ stories:
   - active_loop: product_updates_form
   - intent: deny
   - action: utter_start_over
-  - action: utter_greet
+  - action: utter_first_greet
   - action: action_deactivate_loop
   - active_loop: null
 
@@ -79,6 +85,14 @@ stories:
   # - action: action_give_age
 
 
+- story: out of scope
+  steps:
+  - or:
+    - intent: nlu_fallback
+    - intent: out_of_scope
+    - intent: bot_choice_virtual_assistant
+  - action: action_virtual_ai
+  #- action: utter_start_over
 
 - story: (Conversation) User logs in and requests a human
   steps:

@@ -1,21 +1,17 @@
 version: "3.1"
+# stories:
 rules:
-- rule: respond to FAQs
+- rule: respond to qas
   steps:
-  - intent: faq
-  - action: utter_faq
-- rule: respond to chitchat
+  - intent: qa
+  - action: utter_qa
+- rule: respond to sign
   steps:
-  - intent: chitchat
-  - action: utter_chitchat
+  - intent: sign
+  - action: utter_sign
 
-- rule: out of scope
-  steps:
-  - or:
-    - intent: nlu_fallback
-    - intent: out_of_scope
-  - action: utter_default
 
+ #########################################################
 # order status
 
 - rule: Activate email form for order status

@@ -2,7 +2,7 @@ from django.db import models
 from simple_history.models import HistoricalRecords
 from django.contrib.auth.models import User
 from apps.users.models import Profile
-from apps.tickets.models import Ticket
+from apps.consumers.models import Ticket
 
 
 # import apps

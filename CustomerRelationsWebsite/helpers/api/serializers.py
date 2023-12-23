@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from apps.products.models import Product
 from apps.customers.models import Customer
-from apps.tickets.models import Ticket
+from apps.consumers.models import Ticket
 
 
 

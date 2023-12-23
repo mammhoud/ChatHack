@@ -199,7 +199,7 @@ class ActionSessionStart(Action):
 
         events = [SessionStarted()]
         events.extend(self.fetch_slots(tracker))
-        # events.append(FollowupAction('action_utter_greet'))
+       # events.append(FollowupAction('action_virtual_ai'))
         events.append(ActionExecuted("action_listen"))
 
         return events
@@ -220,10 +220,10 @@ class ActionProductSearch(Action):
         cursor = connection.cursor()
 
         # get slots and save as tuple
-        shoe = [(tracker.get_slot("color")), (tracker.get_slot("size"))]
+        product = [(tracker.get_slot("color")), (tracker.get_slot("size"))]
 
         # place cursor on correct row based on search criteria
-        cursor.execute("SELECT * FROM inventory WHERE color=? AND size=?", shoe)
+        cursor.execute("SELECT * FROM products_inventory WHERE color=? AND size=?", product)
 
         # retrieve sqlite row
         data_row = cursor.fetchone()
@@ -275,7 +275,7 @@ class OrderStatus(Action):
         order_email = (tracker.get_slot("email"),)
 
         # retrieve row based on email
-        cursor.execute("SELECT * FROM orders WHERE order_email=?", order_email)
+        cursor.execute("SELECT * FROM consumers_order WHERE order_email=?", order_email)
         data_row = cursor.fetchone()
 
         if data_row:
@@ -311,17 +311,18 @@ class CancelOrder(Action):
         order_email = (tracker.get_slot("email"),)
 
         # retrieve row based on email
-        cursor.execute("SELECT * FROM orders WHERE order_email=?", order_email)
+        cursor.execute("SELECT * FROM consumers_order WHERE status='order pending' and order_email=?", order_email)
         data_row = cursor.fetchone()
 
         if data_row:
             # change status of entry
             status = [("cancelled"), (tracker.get_slot("email"))]
-            cursor.execute("UPDATE orders SET status=? WHERE order_email=?", status)
+            cursor.execute("UPDATE consumers_order SET status=? WHERE order_email=?", status)
             connection.commit()
             connection.close()
-
+            # tracker.get_slot("email") , 
             # confirm cancellation
+            
             dispatcher.utter_message(response="utter_order_cancel_finish")
             return []
         else:
@@ -349,13 +350,13 @@ class ReturnOrder(Action):
         order_email = (tracker.get_slot("email"),)
 
         # retrieve row based on email
-        cursor.execute("SELECT * FROM orders WHERE order_email=?", order_email)
+        cursor.execute("SELECT * FROM consumers_order WHERE order_email=?", order_email)
         data_row = cursor.fetchone()
 
         if data_row:
             # change status of entry
             status = [("returning"), (tracker.get_slot("email"))]
-            cursor.execute("UPDATE orders SET status=? WHERE order_email=?", status)
+            cursor.execute("UPDATE consumers_order SET status=? WHERE order_email=?", status)
             connection.commit()
             connection.close()
 
@@ -513,6 +514,8 @@ class ActionRequestHuman(Action):
 
         return []
 ############################################################################################
+#                               API COHERE CALLS                                           #
+############################################################################################
 class ActionVirtualAI(Action):
     def name(self):
         return "action_virtual_ai"
@@ -522,33 +525,31 @@ class ActionVirtualAI(Action):
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
-    ):
-        # last_call = None
-        # action_call = datetime.now()
-        # if last_call:
-        #     if (action_call - last_call).seconds < 600:
-        #         return [FollowupAction("action_listen")]
-        co = cohere.Client('0C90CgzPNjeEnIJhoYCac84oXiPw8n32LQDX15Tk') # This is trial API key
-        #if datetime.now().hour < 12:
-        response = co.chat(
+    ) -> List[Dict[Text, Any]]:
+        response = cohere.Client('0C90CgzPNjeEnIJhoYCac84oXiPw8n32LQDX15Tk').chat(
             chat_history=[
-                {"role": "CHATBOT", "message": "hey, how can my algo help!"},
-                {"role":  "USER", "message": "Hello there, i need some thinkgs to ask about but i need a virual assisstant to help me can you help me with that and answer at first with small definition about ai virtual assistant!"}, # This is the first message sent by the bot
+                {"role": "CHATBOT", "message": "Hey there, how can I help you?"},
+                {"role": "USER", "message": "I have a question to AI virtual assistants."},
             ],
-            message=tracker.latest_message.get("text"),
-            # perform web search before answering the question. You can also use your own custom connector.
-            connectors=[{"id": "web-search"}] 
+            message=tracker.latest_message.get("text"),  # Use the user's first message
+            connectors=[{"id": "web-search"}],  # You can add more connectors here
         )
         print(response.text)
+        # Events to be sent back
+        dispatcher.utter_message(response.text) 
+        dispatcher.utter_message(text="Do you have any other questions?")
+        # dispatcher.utter_message(buttons = [
+        #     {"payload": "/affirm", "title": "Yes"},
+        #     {"payload": "/deny", "title": "No"},
+        # ])        
 
-        dispatcher.utter_message(response.text)
-        return [FollowupAction("action_listen")]
-
-        # if tracker.get_slot("is_virtual_assistant"):
-        #     return [FollowupAction("action_virtual_ai")]
-        # else:
-        #     return [FollowupAction("")]
-    
+        ActionExecuted("action_listen")
+        if tracker.latest_message['intent'].get("name") == "/affirm":
+            FollowupAction("action_virtual_ai")
+        else:                
+            return []
+############################################################################################
+#                                 Stack Slots                                              #
 ############################################################################################
 class GiveAge(Action):
     def name(self) -> Text:

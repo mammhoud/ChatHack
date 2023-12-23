@@ -10,7 +10,7 @@ urlpatterns = [
     #path('django-chatapp/chat/supporter/', supporter_homepage),
     #path('', include('chatapp.urls', namespace='chatapp')),
 
-    path('cr/', include('apps.tickets.urls')),
+    path('cr/', include('apps.consumers.urls')),
     path("", include("apps.utils.urls")),
     path("admin/", admin.site.urls),
     path("api/", include("apps.api.urls")),

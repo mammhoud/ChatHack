@@ -65,7 +65,7 @@ nlu:
   examples: |
     - what's new on the site?
     - how do I find out updates
-    - I'd like to sign up for updates
+    - I'd like to Sign up for updates
     - Subscribe to product updates
     - subscribe to updates
     - i [don't](negation) want to subscribe
@@ -75,18 +75,18 @@ nlu:
     - i want to buy tshirt
     - no, don't want to do a return, want to purchase new tshirt
     - since they're in stock, how about I place an order
-- intent: faq/alternate_info
+- intent: qa/alternate_info
   examples: |
     - Can I provide a phone number instead?
     - Can anyone look up my status with my e-mail address?
-- intent: faq/sizing_clarification
+- intent: qa/sizing_clarification
   examples: |
     - American or european sizing?
-- intent: faq/payment_methods
+- intent: qa/payment_methods
   examples: |
     - what kind of payment methods do you offer?
     - how do I pay
-- intent: faq/promotions
+- intent: qa/promotions
   examples: |
     - what kind of deals do you have
     - are you running anything for black friday
@@ -175,6 +175,7 @@ nlu:
     - i need to know about [data science](course) course please
 
 
+
 - intent: affirm
   examples: |
     - yes
@@ -183,6 +184,17 @@ nlu:
     - of course
     - that sounds good
     - correct
+    - yeah
+    - yea
+    - sure
+    - that's right
+    - ok
+    - okay
+    - yup
+    - yes please
+    - yes continue
+    - yes please continue
+    - continue
 - intent: deny
   examples: |
     - no
@@ -195,6 +207,8 @@ nlu:
     - Nah, I would not like to be added to the list
     - nope
     - u stink
+    - no way
+    - back
 - intent: greet
   examples: |
     - hey
@@ -216,20 +230,20 @@ nlu:
     - Hey!!!
     - hallo?
 
-- intent: chitchat/thanks
+- intent: sign/thanks
   examples: |
     - thx
     - Awesome, thanks!
     - thanks mate
     - thank you
-- intent: chitchat/confirm_presence
+- intent: sign/confirm_presence
   examples: |
     - are you there?
-- intent: chitchat/capabilities
+- intent: sign/capabilities
   examples: |
     - What else can you do?
     - what can you do?
-- intent: chitchat/mood_great
+- intent: sign/mood_great
   examples: |
     - perfect
     - great
@@ -246,7 +260,7 @@ nlu:
     - so good
     - so perfect
     - cool beans
-- intent: chitchat/mood_unhappy
+- intent: sign/mood_unhappy
   examples: |
     - my day was horrible
     - I am sad
@@ -264,13 +278,13 @@ nlu:
     - so sad
     - this is not working
     - you suck
-- intent: chitchat/bot_challenge
+- intent: sign/bot_challenge
   examples: |
     - are you a bot?
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
-- intent: chitchat/goodbye
+- intent: sign/goodbye
   examples: |
     - cu
     - good by
