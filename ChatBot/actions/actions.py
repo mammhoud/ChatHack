@@ -436,7 +436,7 @@ class ActionVirtualAI(Action):
             #ActionExecuted("action_listen")
             #dispatcher.utter_message(text="❓?")
         else:
-            co_response = cohere.Client('6tnvh0SRXuZeStFp9HrWi08oKQ2xdu6uJrrEYEKq').chat(
+            co_response = cohere.Client('#').chat(
             chat_history=[
                 {"role": "CHATBOT", "message": tracker.latest_message.get("text")},
                 {"role": "USER", "message": "❓"},
@@ -458,7 +458,7 @@ class ActionVirtualAI(Action):
         #     return []
         
 ############################################################################################
-#6tnvh0SRXuZeStFp9HrWi08oKQ2xdu6uJrrEYEKq#
+#                                                                                          #
 ############################################################################################
 
 # class ActionVirtualAI(Action):
@@ -471,7 +471,7 @@ class ActionVirtualAI(Action):
 #         tracker: Tracker,
 #         domain: Dict[Text, Any],
 #     ) -> List[Dict[Text, Any]]:
-#         response = cohere.Client('0C90CgzPNjeEnIJhoYCac84oXiPw8n32LQDX15Tk').chat(
+#         response = cohere.Client('#').chat(
 #             chat_history=[
 #                 {"role": "CHATBOT", "message": "Hey there, how can I help you?"},
 #                 {"role": "USER", "message": "I thinking about that i have a question to AI virtual assistants."},
