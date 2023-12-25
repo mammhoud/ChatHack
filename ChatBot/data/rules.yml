@@ -3,12 +3,12 @@ version: "3.1"
 rules:
 - rule: respond to qas
   steps:
-  - intent: qa
-  - action: utter_qa
-- rule: respond to sign
+  - intent: faq
+  - action: utter_faq
+- rule: respond to chitchat
   steps:
-  - intent: sign
-  - action: utter_sign
+  - intent: chitchat
+  - action: utter_chitchat
 
 
  #########################################################

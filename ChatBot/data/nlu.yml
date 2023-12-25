@@ -75,18 +75,18 @@ nlu:
     - i want to buy tshirt
     - no, don't want to do a return, want to purchase new tshirt
     - since they're in stock, how about I place an order
-- intent: qa/alternate_info
+- intent: faq/alternate_info
   examples: |
     - Can I provide a phone number instead?
     - Can anyone look up my status with my e-mail address?
-- intent: qa/sizing_clarification
+- intent: faq/sizing_clarification
   examples: |
     - American or european sizing?
-- intent: qa/payment_methods
+- intent: faq/payment_methods
   examples: |
     - what kind of payment methods do you offer?
     - how do I pay
-- intent: qa/promotions
+- intent: faq/promotions
   examples: |
     - what kind of deals do you have
     - are you running anything for black friday
@@ -230,20 +230,20 @@ nlu:
     - Hey!!!
     - hallo?
 
-- intent: sign/thanks
+- intent: chitchat/thanks
   examples: |
     - thx
     - Awesome, thanks!
     - thanks mate
     - thank you
-- intent: sign/confirm_presence
+- intent: chitchat/confirm_presence
   examples: |
     - are you there?
-- intent: sign/capabilities
+- intent: chitchat/capabilities
   examples: |
     - What else can you do?
     - what can you do?
-- intent: sign/mood_great
+- intent: chitchat/mood_great
   examples: |
     - perfect
     - great
@@ -260,7 +260,7 @@ nlu:
     - so good
     - so perfect
     - cool beans
-- intent: sign/mood_unhappy
+- intent: chitchat/mood_unhappy
   examples: |
     - my day was horrible
     - I am sad
@@ -278,13 +278,13 @@ nlu:
     - so sad
     - this is not working
     - you suck
-- intent: sign/bot_challenge
+- intent: chitchat/bot_challenge
   examples: |
     - are you a bot?
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
-- intent: sign/goodbye
+- intent: chitchat/goodbye
   examples: |
     - cu
     - good by

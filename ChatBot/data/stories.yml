@@ -15,7 +15,7 @@ stories:
 - story: user choice shopping bot
   steps:
   - intent: bot_choice_shopping
-  - action: utter_first_greet
+  - action: utter_greet
 
 - story: action virtual ai -> check if user wants to continue using virtual ai or not
   steps:
@@ -28,7 +28,7 @@ stories:
 - story: user choice shopping
   steps:
   - intent: bot_choice_shopping
-  - action: utter_first_greet
+  - action: utter_greet
 # cancel stories shopping bot
 
 - story: User stops product_stock

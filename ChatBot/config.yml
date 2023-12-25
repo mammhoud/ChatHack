@@ -1,4 +1,4 @@
-recipe: default.v1
+#recipe: default.v1
 # Configuration for Rasa NLU.
 # https://rasa.com/docs/rasa/nlu/components/
 
@@ -12,14 +12,16 @@ assistant_id: 20231223-083936-friendly-vinegar #20231223-074608-soft-relationshi
 pipeline:
 
 
-# - name: LanguageodelFeaturizer
-#   model_name: "bert"
-#   model_weights: "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2" # bert-base-multilingual-cased
-
-
 - name: WhitespaceTokenizer
 - name: RegexFeaturizer
 - name: LexicalSyntacticFeaturizer
+# - name: LanguageModelFeaturizer
+#   # Name of the language model to use
+#   model_name: "bert"
+#   # Pre-Trained weights to be loaded
+#   model_weights: "rasa/LaBSE"
+#   cache_dir: null
+- name: CountVectorsFeaturizer
 - name: CountVectorsFeaturizer
   analyzer: char_wb
   min_ngram: 1
@@ -27,7 +29,14 @@ pipeline:
 - name: DIETClassifier
   epochs: 100
   constrain_similarities: true
-  tensorboard_log_directory: null
+  batch_size: 8
+- name: EntitySynonymMapper
+- name: ResponseSelector
+  epochs: 100
+  constrain_similarities: true
+- name: FallbackClassifier
+  threshold: 0.3
+  ambiguity_threshold: 0.1
 - name: EntitySynonymMapper
 
 - name: ResponseSelector
@@ -36,11 +45,11 @@ pipeline:
 
 - name: ResponseSelector
   epochs: 40
-  retrieval_intent: qa
+  retrieval_intent: chitchat
   constrain_similarities: true
 - name: ResponseSelector
   epochs: 40
-  retrieval_intent: sign
+  retrieval_intent: faq
   constrain_similarities: true
 - name: FallbackClassifier
   threshold: 0.6

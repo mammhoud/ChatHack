@@ -14,8 +14,8 @@ intents:
 - inform
 - order_tshirt
 - greet
-- sign
-- qa
+- chitchat
+- faq
 - out_of_scope
 - nlu_fallback
 - whats_your_name
@@ -193,41 +193,41 @@ responses:
   utter_confirm_email:
   - text: I already have your email on file. Would you like me to look up your order under {email}?
   - text: I have your email on file. Would you like me to look up your order under {email}?
-  utter_qa/alternate_info:
+  utter_faq/alternate_info:
   - text: Currenty we can only provide order information based on email.
-  utter_qa/sizing_clarification:
+  utter_faq/sizing_clarification:
   - text: Right now we only offer the stored sizes. We'll try to change this in the future!
 
-  utter_qa/payment_methods:
+  utter_faq/payment_methods:
   - text: We accept all major credit cards, Apple Pay, Google Pay, and PayPal Via a Banking transactions.
 
-  utter_qa/promotions:
+  utter_faq/promotions:
   - text: Currently, we're running a buy one get one half off promotion!
 
-  utter_sign/thanks:
+  utter_chitchat/thanks:
   - text: No problem!
   - text: I have no choice but to help you.
   - text: I try my best
   - text: You're welcome!
   - text: I'm here to help!
-  utter_sign/confirm_presence:
+  utter_chitchat/confirm_presence:
   - text: yep I'm here.
   - text: unfortunately, I'm still listening.
   - text: I'm here, what's up?
 
-  utter_sign/capabilities:
+  utter_chitchat/capabilities:
   - text: I can help you start a return, subscribe to our emails, and even see if we carry your desired tshirt.
   - text: I can help you with orders, returns, and product updates.
 
-  utter_sign/mood_great:
+  utter_chitchat/mood_great:
   - text: Superb!
   - text: right on
-  utter_sign/mood_unhappy:
+  utter_chitchat/mood_unhappy:
   - text: sorry to hear that :(
   - text: ok can you be nice to me
-  utter_sign/bot_challenge:
+  utter_chitchat/bot_challenge:
   - text: I'm a bot, silly
-  utter_sign/goodbye:
+  utter_chitchat/goodbye:
   - text: bye bye
   - text: have a nice time 
   - text: see you later

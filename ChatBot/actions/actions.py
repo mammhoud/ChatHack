@@ -17,7 +17,7 @@ from rasa_sdk.events import (
 
 import cohere 
 
-
+import pandas
 import requests
 import googlesearch
 import mysql.connector
@@ -107,19 +107,6 @@ class ActionSessionStart(Action):
         events.append(ActionExecuted("action_listen"))
 
         return events
-class GiveName(Action):
-    def name(self) -> Text:
-        return "action_give_name"
-
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict[Text, Any]]:
-        evt = BotUttered(text="my name is bot? idk", metadata={"nameGiven": "bot"})
-
-        return [evt]
 
 class SurveySubmit(Action):
     def name(self) -> Text:
@@ -133,7 +120,9 @@ class SurveySubmit(Action):
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(response="utter_open_feedback")
         dispatcher.utter_message(response="utter_survey_end")
+        pandas.DataFrame.to_csv(tracker.latest_message,(username,phone_number,slot_values), "survey.csv")
         return [SlotSet("survey_complete", True)]
+    
 class GiveAge(Action):
     def name(self) -> Text:
         return "action_give_age"
@@ -164,6 +153,19 @@ class GiveUid(Action):
         return [evt]
 
 
+class GiveName(Action):
+    def name(self) -> Text:
+        return "action_give_name"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        evt = BotUttered(text="my name is bot? idk", metadata={"nameGiven": "bot"})
+
+        return [evt]
 
 ####################################################################################################
 #                                    Bot Shopping Actions                                          #
@@ -386,7 +388,8 @@ class ActionRequestHuman(Action):
 
             print("\nBOT:", text)
             dispatcher.utter_message(text)
-            dispatcher.utter_message(image="https://i.imgur.com/Z99thxA")
+            pandas.DataFrame.to_csv((username,phone_number,slot_values), "survey.csv")
+
 
         else:
             text = get_text_from_lang(
@@ -401,6 +404,7 @@ class ActionRequestHuman(Action):
             ##print("\ntracker:", tracker.)
             print("\nBOT:", text)
             dispatcher.utter_message(text, image="https://i.imgur.com/Z99thxA")
+
 
         return []
 ############################################################################################
@@ -432,7 +436,7 @@ class ActionVirtualAI(Action):
             #ActionExecuted("action_listen")
             #dispatcher.utter_message(text="❓?")
         else:
-            co_response = cohere.Client('0C90CgzPNjeEnIJhoYCac84oXiPw8n32LQDX15Tk').chat(
+            co_response = cohere.Client('6tnvh0SRXuZeStFp9HrWi08oKQ2xdu6uJrrEYEKq').chat(
             chat_history=[
                 {"role": "CHATBOT", "message": tracker.latest_message.get("text")},
                 {"role": "USER", "message": "❓"},
@@ -454,7 +458,7 @@ class ActionVirtualAI(Action):
         #     return []
         
 ############################################################################################
-#                                                                                          #
+#6tnvh0SRXuZeStFp9HrWi08oKQ2xdu6uJrrEYEKq#
 ############################################################################################
 
 # class ActionVirtualAI(Action):
