@@ -404,7 +404,7 @@ class ActionVirtualAI(Action):
         if tracker.latest_message['intent'].get("name") in ("/affirm", "Yes","yes","continue","affirm"):
             dispatcher.utter_message(text="Hmm...")
         else:
-            co_response = cohere.Client('Rgwvu6jN1kBe5FPcck62h2fLVSTxQ90NeTv1fZG6').chat(
+            co_response = cohere.Client('').chat(
             chat_history=[
                 {"role": "CHATBOT", "message": tracker.latest_message.get("text")},
                 {"role": "USER", "message": "❓"},
