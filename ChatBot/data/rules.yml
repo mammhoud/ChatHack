@@ -42,6 +42,9 @@ rules:
   - action: survey_form
   - active_loop: survey_form
 
+
+
+
 # cancel order
 
 - rule: Activate email form for cancelling order

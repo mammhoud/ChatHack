@@ -1,216 +1,28 @@
-INSERT INTO "main"."events" ("id",
-"sender_id",
-"type_name",
-"timestamp",
-"intent_name",
-"action_name",
-"data") VALUES ('4', '1611234698', 'user', '1703179903.4144', 'nlu_fallback', '', '{
+{
     "event": "user",
-    "timestamp": 1703179903.4144037,
+    "timestamp": 1703288949.2497506,
     "metadata": {
-        "model_id": "6f5ba5c450c74f0eb4654ebe8df3f43b"
+        "model_id": "51bc0b40dcdb4a18be0d028164297092"
     },
-    "text": "\u0647\u0644\u0627",
+    "text": "Marron",
     "parse_data": {
         "intent": {
-            "name": "nlu_fallback",
-            "confidence": 0.3
+            "name": "inform",
+            "confidence": 0.3265841603279114
         },
         "entities": [],
-        "text": "\u0647\u0644\u0627",
-        "message_id": "53c81542e2814f8d8353d57fe897fa5e",
+        "text": "Marron",
+        "message_id": "8419b2d99e104fc4bc79279c272c5440",
         "metadata": {},
         "text_tokens": [
             [
                 0,
-                3
+                6
             ]
         ],
-        "intent_ranking": [
-            {
-                "name": "nlu_fallback",
-                "confidence": 0.3
-            },
-            {
-                "name": "deny",
-                "confidence": 0.1836443394422531
-            },
-            {
-                "name": "product_stock",
-                "confidence": 0.10690049082040787
-            },
-            {
-                "name": "greet",
-                "confidence": 0.09843938797712326
-            },
-            {
-                "name": "ask_for_details_course",
-                "confidence": 0.08397459983825684
-            },
-            {
-                "name": "affirm",
-                "confidence": 0.08124192804098129
-            },
-            {
-                "name": "whats_your_age",
-                "confidence": 0.07307787239551544
-            },
-            {
-                "name": "return",
-                "confidence": 0.058763615787029266
-            },
-            {
-                "name": "order_status",
-                "confidence": 0.03790760412812233
-            },
-            {
-                "name": "ask_about_attendance",
-                "confidence": 0.03637227788567543
-            },
-            {
-                "name": "bot_choice_courses",
-                "confidence": 0.03141707181930542
-            }
-        ],
-        "response_selector": {
-            "all_retrieval_intents": [
-                "faq",
-                "chitchat"
-            ],
-            "default": {
-                "response": {
-                    "responses": [
-                        {
-                            "text": "sorry to hear that :("
-                        },
-                        {
-                            "text": "ok can you be nice to me"
-                        }
-                    ],
-                    "confidence": 0.11894658207893372,
-                    "intent_response_key": "chitchat/mood_unhappy",
-                    "utter_action": "utter_chitchat/mood_unhappy"
-                },
-                "ranking": [
-                    {
-                        "confidence": 0.11894658207893372,
-                        "intent_response_key": "chitchat/mood_unhappy"
-                    },
-                    {
-                        "confidence": 0.11211756616830826,
-                        "intent_response_key": "chitchat/goodbye"
-                    },
-                    {
-                        "confidence": 0.09764989465475082,
-                        "intent_response_key": "chitchat/thanks"
-                    },
-                    {
-                        "confidence": 0.09495043754577637,
-                        "intent_response_key": "chitchat/mood_great"
-                    },
-                    {
-                        "confidence": 0.09353185445070267,
-                        "intent_response_key": "chitchat/capabilities"
-                    },
-                    {
-                        "confidence": 0.0882405936717987,
-                        "intent_response_key": "faq/payment_methods"
-                    },
-                    {
-                        "confidence": 0.08225171267986298,
-                        "intent_response_key": "faq/sizing_clarification"
-                    },
-                    {
-                        "confidence": 0.08097963035106659,
-                        "intent_response_key": "chitchat/confirm_presence"
-                    },
-                    {
-                        "confidence": 0.07992905378341675,
-                        "intent_response_key": "faq/alternate_info"
-                    },
-                    {
-                        "confidence": 0.07757188379764557,
-                        "intent_response_key": "faq/promotions"
-                    }
-                ]
-            },
-            "faq": {
-                "response": {
-                    "responses": [
-                        {
-                            "text": "We accept all major credit cards, Apple Pay, Google Pay, and PayPal."
-                        }
-                    ],
-                    "confidence": 0.3998616933822632,
-                    "intent_response_key": "faq/payment_methods",
-                    "utter_action": "utter_faq/payment_methods"
-                },
-                "ranking": [
-                    {
-                        "confidence": 0.3998616933822632,
-                        "intent_response_key": "faq/payment_methods"
-                    },
-                    {
-                        "confidence": 0.2691093981266022,
-                        "intent_response_key": "faq/sizing_clarification"
-                    },
-                    {
-                        "confidence": 0.17484129965305328,
-                        "intent_response_key": "faq/alternate_info"
-                    },
-                    {
-                        "confidence": 0.15618765354156494,
-                        "intent_response_key": "faq/promotions"
-                    }
-                ]
-            },
-            "chitchat": {
-                "response": {
-                    "responses": [
-                        {
-                            "text": "bye bye"
-                        },
-                        {
-                            "text": "c u l8er allig8er"
-                        }
-                    ],
-                    "confidence": 0.18809936940670013,
-                    "intent_response_key": "chitchat/goodbye",
-                    "utter_action": "utter_chitchat/goodbye"
-                },
-                "ranking": [
-                    {
-                        "confidence": 0.18809936940670013,
-                        "intent_response_key": "chitchat/goodbye"
-                    },
-                    {
-                        "confidence": 0.18728849291801453,
-                        "intent_response_key": "chitchat/capabilities"
-                    },
-                    {
-                        "confidence": 0.18564900755882263,
-                        "intent_response_key": "chitchat/confirm_presence"
-                    },
-                    {
-                        "confidence": 0.14293831586837769,
-                        "intent_response_key": "chitchat/mood_unhappy"
-                    },
-                    {
-                        "confidence": 0.13144241273403168,
-                        "intent_response_key": "chitchat/thanks"
-                    },
-                    {
-                        "confidence": 0.11236779391765594,
-                        "intent_response_key": "chitchat/bot_challenge"
-                    },
-                    {
-                        "confidence": 0.05221456661820412,
-                        "intent_response_key": "chitchat/mood_great"
-                    }
-                ]
-            }
-        }
+     
+     
     },
     "input_channel": "telegram",
-    "message_id": "53c81542e2814f8d8353d57fe897fa5e"
-}');
+    "message_id": "8419b2d99e104fc4bc79279c272c5440"
+}

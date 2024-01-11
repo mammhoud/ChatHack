@@ -171,8 +171,8 @@ responses:
   - text: Let's start that return. To help find your order, can you please provide your email address?
   - text: Let's start that return. What's your email address so I can find the order?
   utter_return_finish:
-  - text: Ok, I've kicked off your return. You should be receiving a return label in your inbox. Please send it in the next 14 days!
-  - text: Ok, I've started your return. You should be receiving a return label in your inbox. Please send it in the next 14 days!
+  - text: Ok, we've kicked off your return. You should be receiving a return label in your inbox!
+  - text: Ok, we've started your return. You should be receiving a return label in your inbox!
   utter_ask_product_updates_form_email:
   - text: I can keep you up to date with our weekly email about product updates! If you'd like to be added to the list, please add your email address.
   utter_product_updates_finish:

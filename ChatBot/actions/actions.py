@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from typing import Any, Dict, List, Text, Optional
 
 
@@ -14,59 +13,40 @@ from rasa_sdk.events import (
     EventType,
     BotUttered,FollowupAction,ActionExecuted,SessionStarted,
 )
-
+from typing import Any, ClassVar, Dict, List, Text, Optional
 import cohere 
 
-import pandas
 import requests
-import googlesearch
-import mysql.connector
-import dis
+#import googlesearch
+#import mysql.connector
 from email.mime import image
-import logging
-import json
+#import logging
+#import json
 from datetime import datetime
-
-# import pycountry
-
-
-# from slack_sdk import WebClient
-# from slack_sdk.errors import SlackApiError
-
-import json
+import csv 
 import random
 import time
 import os
-
 from pathlib import Path
-from typing import Any, ClassVar, Dict, List, Text, Optional
 
 
 import sqlite3
 
-# Default parameters for DatabseConnection class. Can be overriden in constructor.
-# change this to the location of your SQLite file
 path_to_db = "../db.sqlite3"
 db = ["localhost", "chatbot", "root", "p@Ssword"]
 def_db = db
 
-# Define this list as the values for the `language` slot. Arguments of the `get_..._lang` functions should respect this order.
-lang_list = ["English", "Arabic"]  # Same as slot values
+lang_list = ["English", "Arabic"]
 arabic_prompt="الان اريد مساعدتك ك متحدث اصطناعى (chatbot) اريد منك ان تلعب دور خدمة العملاء و سيتم اعطائك فى كل مرة سؤال يجب ان تجاوبة فى نطاق {} و سوف تجاوب بناءا عن شات بوت يجاوب من بيانات تم اعطائها خصيصا للاجابة عن مشاكل العملاء او تحويلة الى احد ممثلى خدمة العملاء هذة البيانات التى اعطيها لك لا اريد ان تعطى العميل تفاصيل عنها سؤال العميل هو {}".format("topic","question")
 english_prompt="Now, I want to assist you as an artificial speaker (chatbot). I want you to play the role of customer service. Each time, you will be given a question that you must answer within the scope of {}. You will respond based on a chatbot that answers from data specifically given to answer customer problems or to transfer to one of the customer service representatives. This data that I give you, I don't want you to give the customer details about it. The customer's question is {}.".format("topic","question")
-
-# Constants that will be used many times in the code.
 text_does_it_work = ["Does it work now?", "هل يعمل الآن؟"]
-
 text_anything_else = [
     "Anything else I can help with?",
     "أي شيء آخر يمكنني المساعدة به؟",
 ]
-
 buttons_yes_no_emoji = [
     {'title': '👍', 'payload': '/affirm'},
     {'title': '👎', 'payload': '/deny'}]
-
 button_stop_emoji = [{'title': '🚫', 'payload': '/stop'}]
 buttons_yes_no_stop_emoji = buttons_yes_no_emoji + button_stop_emoji
   
@@ -103,8 +83,9 @@ class ActionSessionStart(Action):
 
         events = [SessionStarted()]
         events.extend(self.fetch_slots(tracker))
-       # events.append(FollowupAction('action_virtual_ai'))
         events.append(ActionExecuted("action_listen"))
+        
+        
 
         return events
 
@@ -119,8 +100,15 @@ class SurveySubmit(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(response="utter_open_feedback")
-        dispatcher.utter_message(response="utter_survey_end")
-        pandas.DataFrame.to_csv(tracker.latest_message,(username,phone_number,slot_values), "survey.csv")
+        dispatcher.utter_message(response="utter_survey_end")        
+        try:
+            with open('survey.csv', 'w', encoding='UTF8', newline='') as fs:
+                writer = csv.writer(fs)
+
+               
+                writer.writerow(tracker.latest_message)
+        except:
+            pass          
         return [SlotSet("survey_complete", True)]
     
 class GiveAge(Action):
@@ -182,27 +170,18 @@ class ActionProductSearch(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        # connect to DB
         connection = sqlite3.connect(path_to_db)
         cursor = connection.cursor()
-
-        # get slots and save as tuple
         product = [(tracker.get_slot("color")), (tracker.get_slot("size"))]
-
-        # place cursor on correct row based on search criteria
         cursor.execute("SELECT * FROM products_inventory WHERE color=? AND size=?", product)
-
-        # retrieve sqlite row
         data_row = cursor.fetchone()
 
         if data_row:
-            # provide in stock message
             dispatcher.utter_message(response="utter_in_stock")
             connection.close()
             slots_to_reset = ["size", "color"]
             return [SlotSet(slot, None) for slot in slots_to_reset]
         else:
-            # provide out of stock
             dispatcher.utter_message(response="utter_no_stock")
             connection.close()
             slots_to_reset = ["size", "color"]
@@ -220,27 +199,20 @@ class OrderStatus(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        # connect to DB
         connection = sqlite3.connect(path_to_db)
         cursor = connection.cursor()
-
-        # get email slot
         order_email = (tracker.get_slot("email"),)
 
-        # retrieve row based on email
-        cursor.execute("SELECT * FROM consumers_order WHERE order_email=?", order_email)
+        cursor.execute("SELECT * FROM consumers_order WHERE order_email=? and status <>'delivered'", order_email)
         data_row = cursor.fetchone()
 
         if data_row:
-            # convert tuple to list
             data_list = list(data_row)
-
-            # respond with order status
-            dispatcher.utter_message(response="utter_order_status", status=data_list[5])
+            dispatcher.utter_message(response="utter_order_status", status=data_list[6])
+            dispatcher.utter_message(text=f"Order_Code is:{data_list[5]}")
             connection.close()
             return []
         else:
-            # db didn't have an entry with this email
             dispatcher.utter_message(response="utter_no_order")
             connection.close()
             return []
@@ -256,30 +228,22 @@ class CancelOrder(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        # connect to DB
         connection = sqlite3.connect(path_to_db)
         cursor = connection.cursor()
 
-        # get email slot
         order_email = (tracker.get_slot("email"),)
 
-        # retrieve row based on email
         cursor.execute("SELECT * FROM consumers_order WHERE status='order pending' and order_email=?", order_email)
         data_row = cursor.fetchone()
 
         if data_row:
-            # change status of entry
             status = [("cancelled"), (tracker.get_slot("email"))]
             cursor.execute("UPDATE consumers_order SET status=? WHERE order_email=?", status)
             connection.commit()
             connection.close()
-            # tracker.get_slot("email") , 
-            # confirm cancellation
-            
             dispatcher.utter_message(response="utter_order_cancel_finish")
             return []
         else:
-            # db didn't have an entry with this email
             dispatcher.utter_message(response="utter_no_order")
             connection.close()
             return []
@@ -295,35 +259,35 @@ class ReturnOrder(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        # connect to DB
         connection = sqlite3.connect(path_to_db)
         cursor = connection.cursor()
 
-        # get email slot
         order_email = (tracker.get_slot("email"),)
 
-        # retrieve row based on email
         cursor.execute("SELECT * FROM consumers_order WHERE order_email=?", order_email)
         data_row = cursor.fetchone()
 
         if data_row:
-            # change status of entry
             status = [("returning"), (tracker.get_slot("email"))]
             cursor.execute("UPDATE consumers_order SET status=? WHERE order_email=?", status)
             connection.commit()
             connection.close()
+            
+            try:
+                with open('survey.csv', 'w', encoding='UTF8', newline='') as fs:
+                    writer = csv.writer(fs)
 
-            # confirm return
+                  
+                    writer.writerow(tracker.latest_message)
+            except:
+                pass
+            dispatcher.utter_message(text=f"the order with code: {data_row[5]}")
             dispatcher.utter_message(response="utter_return_finish")
             return []
         else:
-            # db didn't have an entry with this email
             dispatcher.utter_message(response="utter_no_order")
             connection.close()
             return []
-
-
-
 ####################################################################################################
 #                                            HANDOFF                                               #
 ####################################################################################################
@@ -388,25 +352,39 @@ class ActionRequestHuman(Action):
 
             print("\nBOT:", text)
             dispatcher.utter_message(text)
-            pandas.DataFrame.to_csv((username,phone_number,slot_values), "survey.csv")
+            try:
+                with open('survey.csv', 'w', encoding='UTF8', newline='') as fs:
+                    writer = csv.writer(fs)
 
+                    writer.writerow(tracker.latest_message.text())
+            except:
+                pass
 
         else:
             text = get_text_from_lang(
                 tracker,
                 [
-                    'You requested human help but are not logged in. Please type "log in" to log in.',
+                    'You requested human help but are not logged in. Please log in, or send your email',
                     'تم ارسال طلبك و لكن لقد طلبت مساعدة لكنك لم تسجل الدخول. الرجاء كتابة "تسجيل الدخول" لتسجيل الدخول. عذرا لا يمكننا التواصل معك مباشرتا الان',
                 ],
             )
-            #dispatcher.utter_message(image="https://i.imgur.com/Z99thxA")
+            email = (tracker.get_slot("email"),)
+            print(tracker.latest_message)
+            events = [ActionRequestHuman()]
+            
 
-            ##print("\ntracker:", tracker.)
-            print("\nBOT:", text)
-            dispatcher.utter_message(text, image="https://i.imgur.com/Z99thxA")
+            try:
+                with open('survey.csv', 'w', encoding='UTF8', newline='') as fs:
+                    writer = csv.writer(fs)
+
+                    writer.writerow(email)
+            except:
+                pass
+            dispatcher.utter_message(text,image="https://i.imgur.com/Z99thxA"
+                                     )
 
 
-        return []
+        return [SlotSet("survey_complete", True)]
 ############################################################################################
 #                               API COHERE CALLS                                           #
 ############################################################################################
@@ -421,22 +399,12 @@ class ActionVirtualAI(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        # dispatcher.utter_message(buttons = [
-        #     {"payload": "/affirm", "title": "Yes"},
-        #     {"payload": "/deny", "title": "No"},
-        # ], text="Do you want to ask another questions?")        
-        #user_message = {"user_name": "USER", "text": tracker.latest_message.get("text")}
-        #bot_message = {"user_name": "CHATBOT", "text": response.text}
-        #self.chat_hist.append(user_message)
-        #dispatcher.utter_message(text="Do you want to ask another questions?")
-        #ActionExecuted("action_listen")
+       
         co_response = None
         if tracker.latest_message['intent'].get("name") in ("/affirm", "Yes","yes","continue","affirm"):
-            dispatcher.utter_message(text="Do you want to ask a questions?❓")
-            #ActionExecuted("action_listen")
-            #dispatcher.utter_message(text="❓?")
+            dispatcher.utter_message(text="Hmm...")
         else:
-            co_response = cohere.Client('#').chat(
+            co_response = cohere.Client('Rgwvu6jN1kBe5FPcck62h2fLVSTxQ90NeTv1fZG6').chat(
             chat_history=[
                 {"role": "CHATBOT", "message": tracker.latest_message.get("text")},
                 {"role": "USER", "message": "❓"},
@@ -449,55 +417,9 @@ class ActionVirtualAI(Action):
         )
             dispatcher.utter_message(co_response.text) 
 
-        # print(response.text)
-        # Events to be sent back
-        #dispatcher.utter_message(response="utter_optional_virtual_ai")
         dispatcher.utter_message(text="Do you want to ask another question ❓")
         FollowupAction("action_virtual_ai")
-        # else:                
-        #     return []
-        
-############################################################################################
-#                                                                                          #
-############################################################################################
 
-# class ActionVirtualAI(Action):
-#     def name(self):
-#         return "action_virtual_ai"
-
-#     def run(
-#         self,
-#         dispatcher: CollectingDispatcher,
-#         tracker: Tracker,
-#         domain: Dict[Text, Any],
-#     ) -> List[Dict[Text, Any]]:
-#         response = cohere.Client('#').chat(
-#             chat_history=[
-#                 {"role": "CHATBOT", "message": "Hey there, how can I help you?"},
-#                 {"role": "USER", "message": "I thinking about that i have a question to AI virtual assistants."},
-#             ],
-#             message=tracker.latest_message.get("text"),  # Use the user's first message
-#             connectors=[{"id": "web-search"}],  # You can add more connectors here
-#         )
-#         print(response.text)
-#         # Events to be sent back
-#         dispatcher.utter_message(response.text) 
-#         dispatcher.utter_message(text="Do you want to ask another questions?")
-#         # dispatcher.utter_message(buttons = [
-#         #     {"payload": "/affirm", "title": "Yes"},
-#         #     {"payload": "/deny", "title": "No"},
-#         # ])        
-
-#         ActionExecuted("action_listen")
-#         if tracker.latest_message['intent'].get("name") == "/affirm":
-#             FollowupAction("action_virtual_ai")
-#         else:                
-#             return []
-############################################################################################
-#                                 Stack Slots                                              #
-############################################################################################
-
-    
 ####################################################################################################
 #                                           LANGUAGES                                              #                      
 ####################################################################################################
@@ -516,15 +438,15 @@ def get_lang_index(tracker):
 def get_text_from_lang(tracker, utter_list = []):
     lang_index = get_lang_index(tracker)
 
-    if not utter_list: # No text was given for any language
+    if not utter_list:
         return '[NO TEXT DEFINED]'
 
-    if lang_index >= len(utter_list): # No text defined for current language
+    if lang_index >= len(utter_list): 
         lang_index = 0
 
     text = utter_list[lang_index]
 
-    if isinstance(text, list): # If a list is given for the language, choose a random item
+    if isinstance(text, list): 
         text = str(text[random.randint(0,len(text)-1)])
     else:
         text = str(text)
@@ -538,7 +460,7 @@ def get_buttons_from_lang(tracker, titles = [], payloads = []):
     lang_index = get_lang_index(tracker)
     buttons    = []
 
-    if lang_index >= len(payloads): # No text defined for current language
+    if lang_index >= len(payloads): 
         lang_index = 0
     
     for i in range(min(len(titles[lang_index]), len(payloads))):
@@ -562,7 +484,7 @@ class ActionUtterAskLanguage(Action):
             ['Choose a language:',
             ':اختر لغة'])
 
-        buttons = [ # https://forum.rasa.com/t/slots-set-by-clicking-buttons/27629
+        buttons = [
             {'title': 'English',  'payload': '/set_language{"language": "English"}'},
             {'title': 'عربي',     'payload': '/set_language{"language": "Arabic"}'},
         ]

@@ -12,6 +12,8 @@ stories:
 
 # bot choice stories
 
+
+
 - story: user choice shopping bot
   steps:
   - intent: bot_choice_shopping
