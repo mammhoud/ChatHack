@@ -1,6 +1,6 @@
 # DeepBot-ChatHack
 
-DeepBot-ChatHack is a repository that contains the code and resources for a chatbot project. This project aims to develop an interactive and intelligent chatbot that can engage users in conversational experiences. The chatbot utilizes deep learning techniques to understand user queries and provide relevant responses.
+DeepBot (ChatHack) is a repository that contains the code and resources for a chatbot project. This project aims to develop an interactive and intelligent chatbot that can engage users in conversational experiences. The chatbot utilizes deep learning techniques to understand user queries and provide relevant responses.
 - this Repository for submission to Chat hack Hackathon ***lablab.me***
 - Submission Presentation [Here](https://lablab.me/event/chathack-ai-hackathon/beepbot/accelerating-growth-through-the-deepbot-chatbot)
 ## Requirements and Guidelines for Submission
