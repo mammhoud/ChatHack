@@ -8,6 +8,6 @@ Please **DO NOT** file a public issue to report a security vulnerability, instea
 
 ## Supported Versions
 
-Project versions that are currently being supported with security updates vary per project.
-Please see specific project repositories for details.
-If nothing is specified, only the latest major versions are supported.
+Project versions that may currently be supported with security updates contrast per project.
+Please see the precise project repositories for details.
+If nothing is specified, only the latest significant versions are supported.
