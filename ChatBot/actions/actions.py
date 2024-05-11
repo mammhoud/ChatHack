@@ -24,13 +24,13 @@ from email.mime import image
 #import json
 from datetime import datetime
 import csv 
-import random
 import time
 import os
 from pathlib import Path
 
 
 import sqlite3
+import secrets
 
 path_to_db = "../db.sqlite3"
 db = ["localhost", "chatbot", "root", "p@Ssword"]
@@ -447,7 +447,7 @@ def get_text_from_lang(tracker, utter_list = []):
     text = utter_list[lang_index]
 
     if isinstance(text, list): 
-        text = str(text[random.randint(0,len(text)-1)])
+        text = str(text[secrets.SystemRandom().randint(0,len(text)-1)])
     else:
         text = str(text)
     
