@@ -1,6 +1,7 @@
 import sqlite3
-import random
 from faker import Faker
+import secrets
+
 conn = sqlite3.connect('../db.sqlite3')
 c = conn.cursor()
 
@@ -15,15 +16,15 @@ for _ in range(15):
         'order_number': fake.random_int(min=100000, max=999999),
         'order_email': fake.email(),
         'color': fake.color_name(),
-        'size': random.randint(10, 30),
+        'size': secrets.SystemRandom().randint(10, 30),
         'status': fake.random_element(elements=('shipped', 'order pending', 'delivered'))
     }
     orders_data.append(order_data)
-    for _ in range(random.randint(1, 30)):
+    for _ in range(secrets.SystemRandom().randint(1, 30)):
         inventory_data.append({
             'size': order_data['size'],
             'color': fake.color_name(),
-            'quantity': random.randint(10, 30),
+            'quantity': secrets.SystemRandom().randint(10, 30),
             'description': fake.word(),
             'is_active': fake.boolean(),
             'is_featured': fake.boolean(),
