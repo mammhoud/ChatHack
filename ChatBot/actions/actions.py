@@ -435,7 +435,8 @@ def get_lang_index(tracker):
     return lang_list.index(get_lang(tracker))
 
 ''' utter_list is a list of outputs in multiple lanaguages, each output can be a string or a list of strings '''
-def get_text_from_lang(tracker, utter_list = []):
+def get_text_from_lang(tracker, utter_list = None):
+    utter_list = [] if utter_list is None else utter_list
     lang_index = get_lang_index(tracker)
 
     if not utter_list:
@@ -456,7 +457,9 @@ def get_text_from_lang(tracker, utter_list = []):
 def get_response_from_lang(tracker, response):
     return response + '_' + get_lang(tracker)
 
-def get_buttons_from_lang(tracker, titles = [], payloads = []):
+def get_buttons_from_lang(tracker, titles = None, payloads = None):
+    titles = [] if titles is None else titles
+    payloads = [] if payloads is None else payloads
     lang_index = get_lang_index(tracker)
     buttons    = []
 
